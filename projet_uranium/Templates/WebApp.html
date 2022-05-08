@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+	<title>Uranium</title>
+    <link rel="stylesheet" type="text/css" href="./Templates/WebApp.css">
+    <link rel="stylesheet" href="https://cdn.pydata.org/bokeh/release/bokeh-0.12.6.min.css" type="text/css" />
+
+    <script type="text/javascript">
+        function showGestion(select){
+            for (i=0; i<2; i++){
+                document.getElementById("gestion"+i).style.display="none";
+             }
+              document.getElementById("gestion"+select.value).style.display="block";
+		   }
+   </script>
+
+    <script type="text/javascript">
+        function showDiv(select){
+            for (i=0; i<=12; i++){
+                document.getElementById("contenu"+i).style.display="none";
+             }
+            for (i=20; i<=28; i++){
+            	document.getElementById("contenu"+i).style.display="none";
+            }
+              document.getElementById("contenu"+select.value).style.display="block";
+		   }
+   </script>
+
+    <script type="text/javascript">
+        function showDiv2(select){
+            for (i=0; i<=12; i++){
+                document.getElementById("contenu"+i).style.display="none";
+             }
+            for (i=20; i<=28; i++){
+            	document.getElementById("contenu"+i).style.display="none";
+            }
+              document.getElementById("contenu"+select.value).style.display="block";
+		   }
+   </script>
+
+
+	<script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-0.12.6.min.js"></script>
+	<script type="text/javascript">
+		Bokeh.set_log_level("info");
+	</script>
+
+
+</head>
+
+<body>
+	<div id="first">
+		<h1>Uranium - Gestion de la maintenance/l'outillage des magasins des zones d'activité contrôlées dans le secteur nucléaire</h1>
+	</div>
+
+
+	
+
+	<div id="second">
+
+	<table align="center">
+		<TR>
+			<th class="titre">Que voulez-vous gérer ?<br></th>
+			<th>
+				<form>
+				<div class="select-style">
+					<select name="typeGestion" onchange="showGestion(this)">
+						<option value="Open">Sélectionner un type de gestion</option>
+						<option value="0">Gestion de l'intervention</option>
+						<option value="1">Gestion de l'outillage</option>
+					</select>
+				</div>
+				</form>
+			</th>
+		</TR>
+	</table>
+
+	<div align="center" id="gestion0" style="display:none">
+	<table align="center">
+		<TR>
+			<th class="titre">Type de statistiques :<br></th>
+			<th>
+				<form>
+				<div class="select-style">
+					<select name="typeRecherche" onchange="showDiv(this)">
+						<option value="Open">Sélectionner une statistique…</option>
+						<option value="0">Nb de personnes présentes par horaire et période</option>
+						<option value="1">Nb de personnes présentes par horaire</option>
+						<option value="2">Nb de personnes présentes par temps de présence</option>
+						<option value="3">Nb de personnes présentes par entreprise</option>
+						<option value="4">Nb de personnes présentes par spécialité</option>
+                        <option value="5">Nb de personnes présentes par contrat</option>
+						<option value="6">Statistique des intervenants par entreprise</option>
+						<option value="7">Statistique des intervenants par spécialité</option>
+						<option value="8">Statistique des intervenants par heure d'entrée</option>
+						<option value="9">Statistique des intervenants par heure de sortie</option>
+						<option value="10">Statistique des intervenants par temps de présence</option>
+						<option value="11">Statistique des intervenants par date donnée</option>
+						<option value="12">Rechercher un intervenant</option>
+
+					</select>
+				</div>
+				</form>
+			</th>
+		</TR>
+	</table>
+	</div>
+
+
+	<div align="center" id="gestion1" style="display:none">
+	<table align="center">
+		<TR>
+			<th class="titre">Type de statistiques :<br></th>
+			<th>
+				<div class="select-style">
+					<select name="typeRecherche" onchange="showDiv2(this)">
+						<option value="Open">Sélectionner une statistique…</option>
+						<option value="20">Nombre de sorties d'outils selon l'horaire</option>
+						<option value="21">Nombre d'outils délivrés au guichet selon l'horaire/période</option>
+						<option value="22">Nombre de clients servis (dont prolongations d'emprunt)</option>
+						<option value="23">Nombre de sorties pour anomalie selon l'horaire</option>
+						<option value="24">Nombre de rebut selon l'horaire</option>
+						<option value="25">Nombre de mouvements par magasin</option>
+						<option value="26">Nombre de rebus et sorties pour anomalie par magasin</option>
+						<option value="27">Nombre d'emprunts par client</option>
+						<option value="28">Nombre de mouvements par entreprise</option>
+					</select>
+				</div>
+			</th>
+		</TR>
+	</table>
+	</div>
+
+
+    <HR width="80%">
+
+    <div align="center" id="contenu0" style="display:none">
+    	<h2>Calculer le nombre de personnes présentes toutes les 10/15/30/45/60 minutes selon un horaire défini</h2>
+    <div class="form-style">
+	<form action="/type0" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="BUG">BUG</option>
+			<option value="FLA">FLA</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label for="timeDe">
+		<span>Heure début</span>
+		<input required type="time" class="time-field" name="timeDe"/>
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label for="timeA">
+		<span>Heure fin</span>
+		<input required type="time" class="time-field" name="timeA"/>
+	</label>
+
+	<label for="periode">
+		<span>Période (Minutes)</span>
+		<select name="periode" class="select-field">
+			<option value="10">10</option>
+			<option value="15">15</option>
+			<option value="30">30</option>
+			<option value="45">45</option>
+			<option value="60">60</option>
+		</select>
+	</label>
+	<label><span>&nbsp</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+    <div align="center" id="contenu1" style="display:none">
+    	<h2>Calculer le nombre de personnes présentes durant une plage horaire déterminée</h2>
+    <div class="form-style">
+	<form action="/type1" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="BUG">BUG</option>
+			<option value="FLA">FLA</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label for="timeDe">
+		<span>Heure début</span>
+		<input required type="time" class="time-field" name="timeDe" value = "10" />
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label for="timeA">
+		<span>Heure fin</span>
+		<input required type="time" class="time-field" name="timeA" value = "10"/>
+	</label>
+
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+    <div align="center" id="contenu2" style="display:none">
+    	<h2>Calculer le nombre de personnes selon le temps de présence (30/60/90/120/150/180/210/240/270/300 minutes)</h2>
+    <div class="form-style">
+	<form action="/type2" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="BUG">BUG</option>
+			<option value="FLA">FLA</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+	<div align="center" id="contenu3" style="display:none">
+    	<h2>Calculer le nombre de personnes par entreprise</h2>
+    <div class="form-style">
+	<form action="/type3" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="BUG">BUG</option>
+			<option value="FLA">FLA</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+	<div align="center" id="contenu4" style="display:none">
+    	<h2>Calculer le nombre de personnes par spécialité</h2>
+    <div class="form-style">
+	<form action="/type4" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="BUG">BUG</option>
+			<option value="FLA">FLA</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+    <div align="center" id="contenu5" style="display:none">
+    	<h2>Calculer le nombre de personnes par contrat</h2>
+    <div class="form-style">
+	<form action="/type5" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="BUG">BUG</option>
+			<option value="FLA">FLA</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+	<div align="center" id="contenu6" style="display:none">
+    	<h2>Afficher une liste de personnes et les différentes statistiques correspondant à l’entreprise sélectionnée</h2>
+    <div class="form-style">
+	<form action="/type6" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="BUG">BUG</option>
+			<option value="FLA">FLA</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label for="entreprise">
+		<span>Entreprise</span>
+		<select name="entreprise" class="select-field">
+			{{ entreprise }}
+		</select>
+	</label>
+
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+	<div align="center" id="contenu7" style="display:none">
+    	<h2>Afficher une liste de personnes et les différentes statistiques correspondant à la spécialité sélectionnée</h2>
+    <div class="form-style">
+	<form action="/type7" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="BUG">BUG</option>
+			<option value="FLA">FLA</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label for="specialite">
+		<span>Spécialité</span>
+		<select name="specialite" class="select-field">
+			{{ specialite }}
+		</select>
+	</label>
+
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+	<div align="center" id="contenu8" style="display:none">
+    	<h2>Afficher une liste de personnes et les différentes statistiques correspondant à l'heure d'entrée</h2>
+    <div class="form-style">
+	<form action="/type8" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="BUG">BUG</option>
+			<option value="FLA">FLA</option>
+		</select>
+	</label>
+
+	<label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+    <label for="timeDe">
+		<span>Heure début</span>
+		<input required type="time" class="time-field" name="timeDe"/>
+	</label>
+
+    <label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label for="timeA">
+		<span>Heure fin</span>
+		<input required type="time" class="time-field" name="timeA"/>
+	</label>
+
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+	<div align="center" id="contenu9" style="display:none">
+    	<h2>Afficher une liste de personnes et les différentes statistiques correspondant à l'heure de sortie</h2>
+    <div class="form-style">
+	<form action="/type9" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="BUG">BUG</option>
+			<option value="FLA">FLA</option>
+		</select>
+	</label>
+		<label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-04-01"/>
+	</label>
+
+    <label for="timeDe">
+		<span>Heure début</span>
+		<input required type="time" class="time-field" name="timeDe"/>
+	</label>
+
+    <label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-04-01"/>
+	</label>
+
+	<label for="timeA">
+		<span>Heure fin</span>
+		<input required type="time" class="time-field" name="timeA"/>
+	</label>
+
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+	<div align="center" id="contenu10" style="display:none">
+    	<h2>Afficher une liste de personnes et les différentes statistiques correspondant au temps de présence</h2>
+    <div class="form-style">
+	<form action="/type10" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="BUG">BUG</option>
+			<option value="FLA">FLA</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-04-01"/>
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-04-01"/>
+	</label>
+
+	<label for="temps">
+		<span>Temps</span>
+		<select name="temps" class="select-field">
+			<option>0H30</option>
+			<option>1H</option>
+			<option>1H30</option>
+			<option>2H</option>
+            <option>2H30</option>
+			<option>3H</option>
+            <option>3H30</option>
+			<option>4H</option>
+            <option>4H30</option>
+			<option>5H</option>
+            <option>5H30</option>
+			<option>6H</option>
+            <option>6H30</option>
+			<option>>7H</option>
+		</select>
+	</label>
+
+
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+    <div align="center" id="contenu11" style="display:none">
+    	<h2>Intervention selon date</h2>
+    <div class="form-style">
+	<form action="/type11" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="BUG">BUG</option>
+			<option value="FLA">FLA</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+	<div align="center" id="contenu12" style="display:none">
+    	<h2>Rechercher un intervenant, en sachant qu'un intervenant peut travailler dans différentes entreprises,
+			avoir différentes natures de contrat et différentes spécialités pour chaque intervention</h2>
+    <div class="form-style">
+	<form action="/type12" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="BUG">BUG (Matricule commencé par M3)</option>
+			<option value="FLA">FLA (Matricule commencé par M4)</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label for="intervenant">
+		<span>Intervenant</span>
+		<select name="intervenant" class="select-field">
+			{{ intervenant }}
+		</select>
+	</label>
+
+
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+	
+	
+
+	<div align="center" id="contenu20" style="display:none">
+    	<h2>Calculer le nombre d'outils sortant du magasin selon un horaire et date définis</h2>
+    <div class="form-style">
+	<form action="/type20" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="TRI">TRI</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-05-01"/>
+	</label>
+
+	<label for="timeDe">
+		<span>Heure début</span>
+		<input required type="time" class="time-field" name="timeDe"/>
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-05-01"/>
+	</label>
+
+	<label for="timeA">
+		<span>Heure fin</span>
+		<input required type="time" class="time-field" name="timeA"/>
+	</label>
+
+	<label><span>&nbsp</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+    <div align="center" id="contenu21" style="display:none">
+    	<h2>Calculer le nombre d'outils qui sont délivrés au guichet chaque 10-15-30-60 minutes selon une période définie</h2>
+    <div class="form-style">
+	<form action="/type21" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="TRI">TRI</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-05-01"/>
+	</label>
+
+	<label for="timeDe">
+		<span>Heure début</span>
+		<input required type="time" class="time-field" name="timeDe" />
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-05-01"/>
+	</label>
+
+	<label for="timeA">
+		<span>Heure fin</span>
+		<input required type="time" class="time-field" name="timeA" />
+	</label>
+
+	<label for="periode">
+		<span>Période (Minutes)</span>
+		<select name="periode" class="select-field">
+			<option value="10">10</option>
+			<option value="15">15</option>
+			<option value="30">30</option>
+			<option value="60">60</option>
+		</select>
+	</label>
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+    <div align="center" id="contenu22" style="display:none">
+    	<h2>Calculer le nombre de clients servis : emprunts et/ou prolongations d'emprunts d'outils</h2>
+    <div class="form-style">
+	<form action="/type22" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="TRI">TRI</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-05-01"/>
+	</label>
+
+	<label for="timeDe">
+		<span>Heure début</span>
+		<input required type="time" class="time-field" name="timeDe" />
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-05-01"/>
+	</label>
+
+	<label for="timeA">
+		<span>Heure fin</span>
+		<input required type="time" class="time-field" name="timeA" />
+	</label>
+
+	<label for="periode">
+		<span>Période (Minutes)</span>
+		<select name="periode" class="select-field">
+			<option value="10">10</option>
+			<option value="15">15</option>
+			<option value="30">30</option>
+			<option value="60">60</option>
+		</select>
+	</label>
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+	<div align="center" id="contenu23" style="display:none">
+    	<h2>Calculer le nombre d'outils sortant des magasins pour anomalie</h2>
+    <div class="form-style">
+	<form action="/type23" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="TRI">TRI</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-05-01"/>
+	</label>
+
+	<label for="timeDe">
+		<span>Heure début</span>
+		<input required type="time" class="time-field" name="timeDe" />
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-05-01"/>
+	</label>
+	<label for="timeA">
+		<span>Heure fin</span>
+		<input required type="time" class="time-field" name="timeA" />
+	</label>
+
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+	<div align="center" id="contenu24" style="display:none">
+    	<h2>Calculer le nombre d'outils sortant des magasins pour mise au rebus</h2>
+    <div class="form-style">
+	<form action="/type24" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="TRI">TRI</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-05-01"/>
+	</label>
+
+	<label for="timeDe">
+		<span>Heure début</span>
+		<input required type="time" class="time-field" name="timeDe" />
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-05-01"/>
+	</label>
+
+	<label for="timeA">
+		<span>Heure fin</span>
+		<input required type="time" class="time-field" name="timeA" />
+	</label>
+
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+	<div align="center" id="contenu25" style="display:none">
+    	<h2>Calculer le nombre de mouvements par magasin selon la plage temporelle</h2>
+    <div class="form-style">
+	<form action="/type25" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="TRI">TRi</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-05-01"/>
+	</label>
+
+	<label for="timeDe">
+		<span>Heure début</span>
+		<input required type="time" class="time-field" name="timeDe" />
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-05-01"/>
+	</label>
+
+	<label for="timeA">
+		<span>Heure fin</span>
+		<input required type="time" class="time-field" name="timeA" />
+	</label>
+
+	<label for="magasin">
+		<span>Magasin</span>
+		<select name="magasin" class="select-field">
+			{{ magasin }}
+		</select>
+	</label>
+
+	<label for="periode">
+		<span>Période (Minutes)</span>
+		<select name="periode" class="select-field">
+			<option value="10">10</option>
+			<option value="15">15</option>
+			<option value="30">30</option>
+			<option value="60">60</option>
+		</select>
+	</label>
+
+
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+	<div align="center" id="contenu26" style="display:none">
+    	<h2>Calculer le nombre de sorties pour rebus et anomalies par magasin</h2>
+    <div class="form-style">
+	<form action="/type26" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="TRI">TRI</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-05-01"/>
+	</label>
+
+	<label for="timeDe">
+		<span>Heure début</span>
+		<input required type="time" class="time-field" name="timeDe" />
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-05-01"/>
+	</label>
+
+	<label for="timeA">
+		<span>Heure fin</span>
+		<input required type="time" class="time-field" name="timeA" />
+	</label>
+
+	<label for="magasin">
+		<span>Magasin</span>
+		<select name="magasin" class="select-field">
+			{{ magasin }}
+		</select>
+	</label>
+
+
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+	<div align="center" id="contenu27" style="display:none">
+    	<h2>Calculer le nombre d'emprunts par client</h2>
+    <div class="form-style">
+	<form action="/type27" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="TRI">TRI</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-05-01"/>
+	</label>
+
+	<label for="timeDe">
+		<span>Heure début</span>
+		<input required type="time" class="time-field" name="timeDe" />
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-05-01"/>
+	</label>
+
+	<label for="timeA">
+		<span>Heure fin</span>
+		<input required type="time" class="time-field" name="timeA" />
+	</label>
+
+	<label for="client">
+		<span>Client</span>
+		<select name="client" class="select-field">
+			{{ client }}
+		</select>
+	</label>
+
+	<label for="periode">
+		<span>Période (Minutes)</span>
+		<select name="periode" class="select-field">
+			<option value="10">10</option>
+			<option value="15">15</option>
+			<option value="30">30</option>
+			<option value="60">60</option>
+		</select>
+	</label>
+
+
+
+
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+	<div align="center" id="contenu28" style="display:none">
+    	<h2>Calculer le nombre de mouvements par entreprise</h2>
+    <div class="form-style">
+	<form action="/type28" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="TRI">TRI</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-05-01"/>
+	</label>
+
+	<label for="timeDe">
+		<span>Heure début</span>
+		<input required type="time" class="time-field" name="timeDe" />
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-05-01">
+	</label>
+
+	<label for="timeA">
+		<span>Heure fin</span>
+		<input required type="time" class="time-field" name="timeA" />
+	</label>
+
+	<label for="entreprise2">
+		<span>Entreprise</span>
+		<select name="entreprise2" class="select-field">
+			{{ entreprise2 }}
+		</select>
+	</label>
+
+
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+	
+	
+	</div>
+
+
+	<div id="third">
+        <div align="center">{{ infomation }}</div>
+        <div align="center", width="1000", height="700">{{ divforBokeh }}</div>
+
+	</div>
+	
+
+	
+	<div id="fourth">
+		<p>© 2016-2017 <b>MIMO Projet Python</b>. All Rights Reserved</p>
+	</div>
+	
+</body>
+</html>

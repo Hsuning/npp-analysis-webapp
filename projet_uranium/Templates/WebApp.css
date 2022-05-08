@@ -1,0 +1,159 @@
+html{
+		background:white;
+	}
+
+body{
+		text-align: center;
+		margin: 0; 
+		padding: 0px; 
+		font-family: sans-serif;
+
+	}
+
+#first {
+	background-color: black; 
+	text-align: center;
+	padding: 1% 1% 1% 1%;
+}
+
+#first h1{
+	font-size: 24px;
+	font-weight: lighter;
+	color: white;
+}
+
+#second {
+	padding: 1% 1% 1% 1%;
+	text-align: center;
+	background: #F5F5F5;
+}
+
+.titre{
+	width: 200px;
+}
+
+.select-style {
+    border: 1px solid #ccc;
+    width: 350px;
+    border-radius: 3px;
+    overflow: hidden;
+    background: #fafafa url("./Templates/images/select.png") no-repeat 100% 50%;
+}
+
+.select-style select {
+	font-size: 14px;
+    padding: 5px 8px;
+    width: 100%;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    background-image: none;
+    -webkit-appearance: none;
+}
+
+.select-style select:focus{
+	border: 1px solid #555;
+}
+
+
+h2{
+	font-size: 14px;
+}
+
+.form-style{
+    max-width: 30%;
+    padding: 20px 12px 10px 20px;
+    font: 12px sans-serif;
+   	text-align: center;
+}
+
+.form-style label{
+    display: block;
+    margin: 0px 0px 15px 0px;
+}
+
+.form-style label > span{
+    width: 100px;
+    font-weight: bold;
+    float: left;
+    padding-top: 8px;
+    padding-right: 5px;
+}
+
+
+.form-style input.input-field,
+.form-style input.date-field,
+.form-style input.time-field,
+ .form-style .select-field{
+    width: 60%;
+    padding: 1% 1% 1% 1%
+   
+}
+
+.form-style input.input-field,
+.form-style input.date-field,
+.form-style input.time-field,
+ .form-style .select-field{
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    border: 1px solid #C2C2C2;
+    box-shadow: 1px 1px 4px #EBEBEB;
+    -moz-box-shadow: 1px 1px 4px #EBEBEB;
+    -webkit-box-shadow: 1px 1px 4px #EBEBEB;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    padding: 7px;
+    outline: none;
+}
+
+.form-style .input-field:focus,
+.form-style .date-field:focus,
+.form-style .time-field:focus,
+.form-style .select-field:focus{
+    border: 1px solid #0C0;
+}
+
+
+.form-style input[type=submit],
+.form-style input[type=reset]{
+    border: none;
+    padding: 8px 15px 8px 15px;
+    margin-right: 3%;
+    background: #00BFFF;
+    color: #fff;
+    box-shadow: 1px 1px 4px #DADADA;
+    -moz-box-shadow: 1px 1px 4px #DADADA;
+    -webkit-box-shadow: 1px 1px 4px #DADADA;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+}
+
+#third{  
+	background-size:cover;
+	padding: 5%
+	text-align: center;
+	vertical-align : center;
+}
+
+#third table {
+  width:80%;
+  text-align:center;
+}
+
+#third th {
+  padding:5px 0px;
+  color:#fff;
+  background-color:#d6d6a5;
+}
+
+#third td {
+  padding:5px 0px;color:#555;background-color:#fff;border-bottom:1px solid #915957;
+}
+
+#fourth{
+	background-color: #484848;padding: 1%;font-size: 12px;
+}
+

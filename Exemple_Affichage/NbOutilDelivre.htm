@@ -1,0 +1,1015 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+	<title>Uranium</title>
+    <link rel="stylesheet" type="text/css" href="./Templates/WebApp.css">
+    <link rel="stylesheet" href="https://cdn.pydata.org/bokeh/release/bokeh-0.12.6.min.css" type="text/css" />
+
+    <script type="text/javascript">
+        function showGestion(select){
+            for (i=0; i<2; i++){
+                document.getElementById("gestion"+i).style.display="none";
+             }
+              document.getElementById("gestion"+select.value).style.display="block";
+		   }
+   </script>
+
+    <script type="text/javascript">
+        function showDiv(select){
+            for (i=0; i<=12; i++){
+                document.getElementById("contenu"+i).style.display="none";
+             }
+            for (i=20; i<=28; i++){
+            	document.getElementById("contenu"+i).style.display="none";
+            }
+              document.getElementById("contenu"+select.value).style.display="block";
+		   }
+   </script>
+
+    <script type="text/javascript">
+        function showDiv2(select){
+            for (i=0; i<=12; i++){
+                document.getElementById("contenu"+i).style.display="none";
+             }
+            for (i=20; i<=28; i++){
+            	document.getElementById("contenu"+i).style.display="none";
+            }
+              document.getElementById("contenu"+select.value).style.display="block";
+		   }
+   </script>
+
+
+	<script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-0.12.6.min.js"></script>
+	<script type="text/javascript">
+		Bokeh.set_log_level("info");
+	</script>
+
+
+</head>
+
+<body>
+	<div id="first">
+		<h1>Uranium - Gestion de la maintenance/l'outillage des magasins des zones d'activité contrôlées dans le secteur nucléaire</h1>
+	</div>
+
+
+	
+
+	<div id="second">
+
+	<table align="center">
+		<TR>
+			<th class="titre">Que voulez-vous gérer ?<br></th>
+			<th>
+				<form>
+				<div class="select-style">
+					<select name="typeGestion" onchange="showGestion(this)">
+						<option value="Open">Sélectionner un type de gestion</option>
+						<option value="0">Gestion de l'intervention</option>
+						<option value="1">Gestion de l'outillage</option>
+					</select>
+				</div>
+				</form>
+			</th>
+		</TR>
+	</table>
+
+	<div align="center" id="gestion0" style="display:none">
+	<table align="center">
+		<TR>
+			<th class="titre">Type de statistiques :<br></th>
+			<th>
+				<form>
+				<div class="select-style">
+					<select name="typeRecherche" onchange="showDiv(this)">
+						<option value="Open">Sélectionner une statistique…</option>
+						<option value="0">Nb de personnes présentes par horaire et période</option>
+						<option value="1">Nb de personnes présentes par horaire</option>
+						<option value="2">Nb de personnes présentes par temps de présence</option>
+						<option value="3">Nb de personnes présentes par entreprise</option>
+						<option value="4">Nb de personnes présentes par spécialité</option>
+                        <option value="5">Nb de personnes présentes par contrat</option>
+						<option value="6">Statistique des intervenants par entreprise</option>
+						<option value="7">Statistique des intervenants par spécialité</option>
+						<option value="8">Statistique des intervenants par heure d'entrée</option>
+						<option value="9">Statistique des intervenants par heure de sortie</option>
+						<option value="10">Statistique des intervenants par temps de présence</option>
+						<option value="11">Statistique des intervenants par date donnée</option>
+						<option value="12">Rechercher un intervenant</option>
+
+					</select>
+				</div>
+				</form>
+			</th>
+		</TR>
+	</table>
+	</div>
+
+
+	<div align="center" id="gestion1" style="display:none">
+	<table align="center">
+		<TR>
+			<th class="titre">Type de statistiques :<br></th>
+			<th>
+				<div class="select-style">
+					<select name="typeRecherche" onchange="showDiv2(this)">
+						<option value="Open">Sélectionner une statistique…</option>
+						<option value="20">Nombre de sorties d'outils selon l'horaire</option>
+						<option value="21">Nombre d'outils délivrés au guichet selon l'horaire/période</option>
+						<option value="22">Nombre de clients servis (dont prolongations d'emprunt)</option>
+						<option value="23">Nombre de sorties pour anomalie selon l'horaire</option>
+						<option value="24">Nombre de rebut selon l'horaire</option>
+						<option value="25">Nombre de mouvements par magasin</option>
+						<option value="26">Nombre de rebus et sorties pour anomalie par magasin</option>
+						<option value="27">Nombre d'emprunts par client</option>
+						<option value="28">Nombre de mouvements par entreprise</option>
+					</select>
+				</div>
+			</th>
+		</TR>
+	</table>
+	</div>
+
+
+    <HR width="80%">
+
+    <div align="center" id="contenu0" style="display:none">
+    	<h2>Calculer le nombre de personnes présentes toutes les 10/15/30/45/60 minutes selon un horaire défini</h2>
+    <div class="form-style">
+	<form action="/type0" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="BUG">BUG</option>
+			<option value="FLA">FLA</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label for="timeDe">
+		<span>Heure début</span>
+		<input required type="time" class="time-field" name="timeDe"/>
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label for="timeA">
+		<span>Heure fin</span>
+		<input required type="time" class="time-field" name="timeA"/>
+	</label>
+
+	<label for="periode">
+		<span>Période (Minutes)</span>
+		<select name="periode" class="select-field">
+			<option value="10">10</option>
+			<option value="15">15</option>
+			<option value="30">30</option>
+			<option value="45">45</option>
+			<option value="60">60</option>
+		</select>
+	</label>
+	<label><span>&nbsp</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+    <div align="center" id="contenu1" style="display:none">
+    	<h2>Calculer le nombre de personnes présentes durant une plage horaire déterminée</h2>
+    <div class="form-style">
+	<form action="/type1" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="BUG">BUG</option>
+			<option value="FLA">FLA</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label for="timeDe">
+		<span>Heure début</span>
+		<input required type="time" class="time-field" name="timeDe" value = "10" />
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label for="timeA">
+		<span>Heure fin</span>
+		<input required type="time" class="time-field" name="timeA" value = "10"/>
+	</label>
+
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+    <div align="center" id="contenu2" style="display:none">
+    	<h2>Calculer le nombre de personnes selon le temps de présence (30/60/90/120/150/180/210/240/270/300 minutes)</h2>
+    <div class="form-style">
+	<form action="/type2" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="BUG">BUG</option>
+			<option value="FLA">FLA</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+	<div align="center" id="contenu3" style="display:none">
+    	<h2>Calculer le nombre de personnes par entreprise</h2>
+    <div class="form-style">
+	<form action="/type3" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="BUG">BUG</option>
+			<option value="FLA">FLA</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+	<div align="center" id="contenu4" style="display:none">
+    	<h2>Calculer le nombre de personnes par spécialité</h2>
+    <div class="form-style">
+	<form action="/type4" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="BUG">BUG</option>
+			<option value="FLA">FLA</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+    <div align="center" id="contenu5" style="display:none">
+    	<h2>Calculer le nombre de personnes par contrat</h2>
+    <div class="form-style">
+	<form action="/type5" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="BUG">BUG</option>
+			<option value="FLA">FLA</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+	<div align="center" id="contenu6" style="display:none">
+    	<h2>Afficher une liste de personnes et les différentes statistiques correspondant à l’entreprise sélectionnée</h2>
+    <div class="form-style">
+	<form action="/type6" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="BUG">BUG</option>
+			<option value="FLA">FLA</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label for="entreprise">
+		<span>Entreprise</span>
+		<select name="entreprise" class="select-field">
+			<option value="01 DB METRAVIB ACOEM 12/14">01 DB METRAVIB ACOEM 12/14</option><option value="A+  METROLOGIE  REVERSE FACTORING">A+  METROLOGIE  REVERSE FACTORING</option><option value="ACADEMIE DE DIJON">ACADEMIE DE DIJON</option><option value="ACADEMIE DE ROUEN RECTORAT">ACADEMIE DE ROUEN RECTORAT</option><option value="ADECCO FRANCE">ADECCO FRANCE</option><option value="ADECCO FRANCE EXPERTS, RECRUTEMENT ET IN">ADECCO FRANCE EXPERTS, RECRUTEMENT ET IN</option><option value="ADEQUAT 024">ADEQUAT 024</option><option value="ADF - TARLIN">ADF - TARLIN</option><option value="ADF TARLIN LES HUTTES">ADF TARLIN LES HUTTES</option><option value="ADIA SIRET INACTIF AU 18.07.2013">ADIA SIRET INACTIF AU 18.07.2013</option><option value="ADVANCE ENGINEERING CERAP ADVANCE - DOMA">ADVANCE ENGINEERING CERAP ADVANCE - DOMA</option><option value="AEMCO">AEMCO</option><option value="AGENCEMENT SECURITE CREATIONS ALU  E-OPA">AGENCEMENT SECURITE CREATIONS ALU  E-OPA</option><option value="AKKA INGENIERIE PROCESS  05/15">AKKA INGENIERIE PROCESS  05/15</option><option value="ALPHATEST">ALPHATEST</option><option value="ALSTOM POWER SERVICE SERVICE LEVALLOIS">ALSTOM POWER SERVICE SERVICE LEVALLOIS</option><option value="ALSTOM POWER SERVICE TPS LA COURNEUVE">ALSTOM POWER SERVICE TPS LA COURNEUVE</option><option value="ALSTOM POWER SERVICE TUS LA COURNEUVE E ">ALSTOM POWER SERVICE TUS LA COURNEUVE E </option><option value="ALTRAN TECHNOLOGIES  03/15">ALTRAN TECHNOLOGIES  03/15</option><option value="AMALIS-ASSAIN MAINTE ASSIST LOGIST SCE  ">AMALIS-ASSAIN MAINTE ASSIST LOGIST SCE  </option><option value="AMARIS ENERGIE">AMARIS ENERGIE</option><option value="AMEC SPIE THERMATOME">AMEC SPIE THERMATOME</option><option value="AMS  FRANCE ALLIANCE INSTRUMENTS">AMS  FRANCE ALLIANCE INSTRUMENTS</option><option value="AMSYCOM AMENAGEM SYSTEME COMM  03/15 MUL">AMSYCOM AMENAGEM SYSTEME COMM  03/15 MUL</option><option value="AMSYCOM AMENAGEM SYSTEME COMMUNICATION  ">AMSYCOM AMENAGEM SYSTEME COMMUNICATION  </option><option value="AMT OUEST.">AMT OUEST.</option><option value="APAVE NORD-OUEST SAS  E OPAR">APAVE NORD-OUEST SAS  E OPAR</option><option value="APAVE SUDEUROPE SAS">APAVE SUDEUROPE SAS</option><option value="APAVE SUDEUROPE SAS  E-OPAR MAJ 02/2014">APAVE SUDEUROPE SAS  E-OPAR MAJ 02/2014</option><option value="APCO TECHNOLOGIES SAS">APCO TECHNOLOGIES SAS</option><option value="ARDECHE APPLICAT TECH ELECTRICITE ME ARD">ARDECHE APPLICAT TECH ELECTRICITE ME ARD</option><option value="ARDECHE APPLICAT TECH ELECTRICITE MESU">ARDECHE APPLICAT TECH ELECTRICITE MESU</option><option value="ARDECHE APPLICATION TECHNIQUE ELECTRIQUE">ARDECHE APPLICATION TECHNIQUE ELECTRIQUE</option><option value="AREVA EXPANSION">AREVA EXPANSION</option><option value="AREVA NP  REVERSE FACTORING">AREVA NP  REVERSE FACTORING</option><option value="AREVA NP  REVERSE FACTORING OA97 NE PAS ">AREVA NP  REVERSE FACTORING OA97 NE PAS </option><option value="AREVA SIRET INACTIF-VOIR LE 645234">AREVA SIRET INACTIF-VOIR LE 645234</option><option value="ARKADIA INGENIERIE  E OPAR DAILLY: 32959">ARKADIA INGENIERIE  E OPAR DAILLY: 32959</option><option value="ASCO ASSISTANCE & CONSEIL">ASCO ASSISTANCE & CONSEIL</option><option value="ASS NAT FORMATION PROFESSION ADULTE  E-O">ASS NAT FORMATION PROFESSION ADULTE  E-O</option><option value="ASSISTANCE TECHNIQ MAINTENANCE NETTOYAGE">ASSISTANCE TECHNIQ MAINTENANCE NETTOYAGE</option><option value="ASSISTANCES CONTROLES TECHNOLOGIES">ASSISTANCES CONTROLES TECHNOLOGIES</option><option value="ASSYSTEM ENGINEERING & OPERATION SERVICE">ASSYSTEM ENGINEERING & OPERATION SERVICE</option><option value="ASSYSTEM ENGINEERING AND OPERATION SCE">ASSYSTEM ENGINEERING AND OPERATION SCE</option><option value="ASSYSTEM ENGINEERING AND OPERATION SCE  ">ASSYSTEM ENGINEERING AND OPERATION SCE  </option><option value="ASSYSTEM ENGINEERING AND OPERATION SERVI">ASSYSTEM ENGINEERING AND OPERATION SERVI</option><option value="AUTORITE DE SURETE NUCLEAIRE">AUTORITE DE SURETE NUCLEAIRE</option><option value="AVS TRAVAIL TEMPORAIRE">AVS TRAVAIL TEMPORAIRE</option><option value="AXIMA CONCEPT AXIMA CONTRACTING ACTIS SE">AXIMA CONCEPT AXIMA CONTRACTING ACTIS SE</option><option value="AXXO MAINTENANCE PROCEDES">AXXO MAINTENANCE PROCEDES</option><option value="BAUDIN CHATEAUNEUF">BAUDIN CHATEAUNEUF</option><option value="BAUDIN CHATEAUNEUF  06/14 MULTI IBAN">BAUDIN CHATEAUNEUF  06/14 MULTI IBAN</option><option value="BAUMERT  E-OPAR">BAUMERT  E-OPAR</option><option value="BAUMERT  EOPAR">BAUMERT  EOPAR</option><option value="BELFOR PREVENTION FRANCE  E OPAR">BELFOR PREVENTION FRANCE  E OPAR</option><option value="BERTIN TECHNOLOGIES">BERTIN TECHNOLOGIES</option><option value="BILFINGER LTM INDUSTRIE SAS">BILFINGER LTM INDUSTRIE SAS</option><option value="BOCCARD">BOCCARD</option><option value="BOCCARD  REVERSE FACTORING">BOCCARD  REVERSE FACTORING</option><option value="BOUYGUES CONSTRUCT SCE NUCLEAIRES">BOUYGUES CONSTRUCT SCE NUCLEAIRES</option><option value="BRIGADE DE SAPEURS POMPIERS">BRIGADE DE SAPEURS POMPIERS</option><option value="BUREAU VERITAS EXPLOITATION CHERBOURG">BUREAU VERITAS EXPLOITATION CHERBOURG</option><option value="C3DS NUCLEAR FIELD SERVICE">C3DS NUCLEAR FIELD SERVICE</option><option value="CA SERVICES">CA SERVICES</option><option value="CADRES ET TECHNIQ. MODERNES CONSEIL  03/">CADRES ET TECHNIQ. MODERNES CONSEIL  03/</option><option value="CAMPENON BERNARD REGIONS CAMPENON BERNAR">CAMPENON BERNARD REGIONS CAMPENON BERNAR</option><option value="CANBERRA FRANCE">CANBERRA FRANCE</option><option value="CANBERRA FRANCE SAS">CANBERRA FRANCE SAS</option><option value="CAP AIN">CAP AIN</option><option value="CAP-AIN SARL PARC INDUSTRIEL LA PLAINE D">CAP-AIN SARL PARC INDUSTRIEL LA PLAINE D</option><option value="CE CNPE DE NOGENT SUR SEINE">CE CNPE DE NOGENT SUR SEINE</option><option value="CEGELEC CEM">CEGELEC CEM</option><option value="CEGELEC LORRAINE ALSACE  E OPAR">CEGELEC LORRAINE ALSACE  E OPAR</option><option value="CENTRALP AUTOMATISMES  E-OPAR # NE PAS M">CENTRALP AUTOMATISMES  E-OPAR # NE PAS M</option><option value="CEP INDUSTRIE">CEP INDUSTRIE</option><option value="CEP INDUSTRIE SIRET INACTIF au 31/03/201">CEP INDUSTRIE SIRET INACTIF au 31/03/201</option><option value="CERAP LOYETTES">CERAP LOYETTES</option><option value="CG3N OMEXOM">CG3N OMEXOM</option><option value="CIBL. EXPERTS">CIBL. EXPERTS</option><option value="CLEMESSY LYON">CLEMESSY LYON</option><option value="CLEMESSY SA">CLEMESSY SA</option><option value="CLYDE UNION SAS">CLYDE UNION SAS</option><option value="CMI MAINTENANCE NORD SAS">CMI MAINTENANCE NORD SAS</option><option value="CMI MUON">CMI MUON</option><option value="CNPE DE BELLEVILLE">CNPE DE BELLEVILLE</option><option value="CNPE DE CHOOZ">CNPE DE CHOOZ</option><option value="CNPE DE CRUAS-MEYSSE">CNPE DE CRUAS-MEYSSE</option><option value="CNPE DE DAMPIERRE">CNPE DE DAMPIERRE</option><option value="CNPE DE FESSENHEIM">CNPE DE FESSENHEIM</option><option value="CNPE DE FLAMANVILLE">CNPE DE FLAMANVILLE</option><option value="CNPE DE GOLFECH">CNPE DE GOLFECH</option><option value="CNPE DE GRAVELINES">CNPE DE GRAVELINES</option><option value="CNPE DE SAINT-ALBAN">CNPE DE SAINT-ALBAN</option><option value="CNPE DU BLAYAIS">CNPE DU BLAYAIS</option><option value="CNPE DU BUGEY">CNPE DU BUGEY</option><option value="COM ACMD ALBI CONCEPT METAL DEVEL E-OPAR">COM ACMD ALBI CONCEPT METAL DEVEL E-OPAR</option><option value="COMEX NUCLEAIRE ONET TECHNOLOGIES">COMEX NUCLEAIRE ONET TECHNOLOGIES</option><option value="COMPTOIR LYONNAIS DE SOUDAGE">COMPTOIR LYONNAIS DE SOUDAGE</option><option value="COMPUTACENTER FRANCE">COMPUTACENTER FRANCE</option><option value="CONCEPT ET LANGAGE INTERNATIONAL CONCEPT">CONCEPT ET LANGAGE INTERNATIONAL CONCEPT</option><option value="CONSEILS ETUDES EN RADIOPROTECTION  REVE">CONSEILS ETUDES EN RADIOPROTECTION  REVE</option><option value="CONSEILS ETUDES EN RADIOPROTECTION CERAP">CONSEILS ETUDES EN RADIOPROTECTION CERAP</option><option value="CONSTRUCTIONS INDUST MEDITERRANEE CNIM E">CONSTRUCTIONS INDUST MEDITERRANEE CNIM E</option><option value="CONTROLES TEST EXPERTISES-NORDTEST CTE N">CONTROLES TEST EXPERTISES-NORDTEST CTE N</option><option value="CONTROLFEU  10/14 MULTI IBAN">CONTROLFEU  10/14 MULTI IBAN</option><option value="COTE SAS  E-OPAR">COTE SAS  E-OPAR</option><option value="COTTEL RESEAUX">COTTEL RESEAUX</option><option value="CRIT">CRIT</option><option value="CRIT INTERIM">CRIT INTERIM</option><option value="CTMN">CTMN</option><option value="CTRE D'ETUDES ET DE RECHERCHE POUR LES T">CTRE D'ETUDES ET DE RECHERCHE POUR LES T</option><option value="CTRE ETUDE RECHERCHE TECH INDUS APPLIQ Z">CTRE ETUDE RECHERCHE TECH INDUS APPLIQ Z</option><option value="CTRE NAT EQUIP PRODUCT ELECTR">CTRE NAT EQUIP PRODUCT ELECTR</option><option value="CTRE NAT EQUIPEMENT NUCLEAIRE">CTRE NAT EQUIPEMENT NUCLEAIRE</option><option value="CYBERLABO">CYBERLABO</option><option value="DALKIA">DALKIA</option><option value="DB VIB CONSULTING  REVERSE FACTORING">DB VIB CONSULTING  REVERSE FACTORING</option><option value="DEKRA CONSEIL HSE SIRET INACTIF E OPAR S">DEKRA CONSEIL HSE SIRET INACTIF E OPAR S</option><option value="DEKRA INDUSTRIAL  E OPAR MAJ 04/2013">DEKRA INDUSTRIAL  E OPAR MAJ 04/2013</option><option value="DELTA NEU">DELTA NEU</option><option value="DESAUTEL">DESAUTEL</option><option value="DESAUTEL  12/14">DESAUTEL  12/14</option><option value="DESAUTEL  E-OPAR" ANALYSE RIB ET DIVERGE">DESAUTEL  E-OPAR" ANALYSE RIB ET DIVERGE</option><option value="DIVISION PRODUCTION NUCLEAIRE">DIVISION PRODUCTION NUCLEAIRE</option><option value="DLSI">DLSI</option><option value="DLSI SAINT VALERY">DLSI SAINT VALERY</option><option value="DRAGER SAFETY FRANCE  E-OPAR "ANALYSE RI">DRAGER SAFETY FRANCE  E-OPAR "ANALYSE RI</option><option value="ECI">ECI</option><option value="ECONOCOM SERVICES">ECONOCOM SERVICES</option><option value="EDF">EDF</option><option value="EDF - DIR ING PARC DECONST ENVIRON">EDF - DIR ING PARC DECONST ENVIRON</option><option value="EDF - DIR PROJET DECONST DECHETS">EDF - DIR PROJET DECONST DECHETS</option><option value="EDF - DPINN">EDF - DPINN</option><option value="EDF AMT VDR - US MEDITERRANEE">EDF AMT VDR - US MEDITERRANEE</option><option value="EDF UNITE SERVICES MEDITERRANEE CE UNITE">EDF UNITE SERVICES MEDITERRANEE CE UNITE</option><option value="EIFFEL INDUSTRIE">EIFFEL INDUSTRIE</option><option value="EIFFEL INDUSTRIE EIFFEL INDUSTRIE PROVEN">EIFFEL INDUSTRIE EIFFEL INDUSTRIE PROVEN</option><option value="EIFFEL INDUSTRIE EIFFEL INDUSTRIE RHONE ">EIFFEL INDUSTRIE EIFFEL INDUSTRIE RHONE </option><option value="EKIUM">EKIUM</option><option value="ELECTRICITE DE FRANCE">ELECTRICITE DE FRANCE</option><option value="ELECTRICITE DE FRANCE AMT-UNITE DE SERVI">ELECTRICITE DE FRANCE AMT-UNITE DE SERVI</option><option value="ELECTRICITE DE FRANCE C P N CHINON">ELECTRICITE DE FRANCE C P N CHINON</option><option value="ELECTRICITE DE FRANCE C P N DU TRICASTIN">ELECTRICITE DE FRANCE C P N DU TRICASTIN</option><option value="ELECTRICITE DE FRANCE UP ALPES">ELECTRICITE DE FRANCE UP ALPES</option><option value="EM2S 38">EM2S 38</option><option value="ENDEL">ENDEL</option><option value="ENDEL  05/14">ENDEL  05/14</option><option value="ENDEL  E-OPAR" ANALYSE RIB ET DIVERGENT ">ENDEL  E-OPAR" ANALYSE RIB ET DIVERGENT </option><option value="ENDEL COFELY ENDEL E-OPAR - NE PAS MODIF">ENDEL COFELY ENDEL E-OPAR - NE PAS MODIF</option><option value="ENGIE ENERGIE SERVICES COFELY">ENGIE ENERGIE SERVICES COFELY</option><option value="ENTR LOCATION INTERIMAIRE">ENTR LOCATION INTERIMAIRE</option><option value="ENTR TECH SECURITE SURVEIL RHONE-ALPES E">ENTR TECH SECURITE SURVEIL RHONE-ALPES E</option><option value="ERAS">ERAS</option><option value="ETABLISSEMENTS CHPOLANSKY">ETABLISSEMENTS CHPOLANSKY</option><option value="ETABLISSEMENTS CHPOLANSKY SIRET INACTIF">ETABLISSEMENTS CHPOLANSKY SIRET INACTIF</option><option value="ETABLISSEMENTS MASCI  03/14">ETABLISSEMENTS MASCI  03/14</option><option value="ETS TCHOULFIAN">ETS TCHOULFIAN</option><option value="EURO ENGINEERING AJILON ENGINEERING E-OP">EURO ENGINEERING AJILON ENGINEERING E-OP</option><option value="EXIRYS">EXIRYS</option><option value="EXIRYS SIRET INACTIF DEPUIS 01/10/2013">EXIRYS SIRET INACTIF DEPUIS 01/10/2013</option><option value="FARGAS RHONE-ALPES">FARGAS RHONE-ALPES</option><option value="FIVES NORDON">FIVES NORDON</option><option value="FLUIDEXPERT  03/14">FLUIDEXPERT  03/14</option><option value="FOURE LAGADEC  07/14">FOURE LAGADEC  07/14</option><option value="FRAMATOME  ABSENCE D'ACTIVITE - CF 31302">FRAMATOME  ABSENCE D'ACTIVITE - CF 31302</option><option value="FURMANITE  EOPAR">FURMANITE  EOPAR</option><option value="GADS">GADS</option><option value="GEA WENUTEC GMBH">GEA WENUTEC GMBH</option><option value="GEMO INTERIM 15">GEMO INTERIM 15</option><option value="GENDARMERIE NATIONALE CATG RENNES">GENDARMERIE NATIONALE CATG RENNES</option><option value="GENERAL EMPLOI">GENERAL EMPLOI</option><option value="GIE ACE  E-OPAR">GIE ACE  E-OPAR</option><option value="GROUPE STECMI">GROUPE STECMI</option><option value="GSF ENERGIA BUGEY">GSF ENERGIA BUGEY</option><option value="HACH LANGE FRANCE  E-OPAR">HACH LANGE FRANCE  E-OPAR</option><option value="IMMOBILIER GROUPE">IMMOBILIER GROUPE</option><option value="INATECH SPRL">INATECH SPRL</option><option value="INCORE SERVICES ENTREPRISE CESSEE 03.01.">INCORE SERVICES ENTREPRISE CESSEE 03.01.</option><option value="INCOTECH  E-OPAR">INCOTECH  E-OPAR</option><option value="INDUSTRIELLE TUYAUTERIE & CHAUDRONNERIE">INDUSTRIELLE TUYAUTERIE & CHAUDRONNERIE</option><option value="INEO ACTIVITE NUCLEAIRE ET CENTR COFELY ">INEO ACTIVITE NUCLEAIRE ET CENTR COFELY </option><option value="INEO NORD PICARDIE  E-OPAR # NE PAS MODI">INEO NORD PICARDIE  E-OPAR # NE PAS MODI</option><option value="INGENICA INGENIERIE INDUSTRIELLE RETMA  ">INGENICA INGENIERIE INDUSTRIELLE RETMA  </option><option value="INGENIERIE PEINTURES ET REVET SPECIAUX I">INGENIERIE PEINTURES ET REVET SPECIAUX I</option><option value="INGERIS CONSULTING">INGERIS CONSULTING</option><option value="INGEROP CONSEIL ET INGENIERIE (ICI) SIRE">INGEROP CONSEIL ET INGENIERIE (ICI) SIRE</option><option value="INSTIT RADIOPROTECTION SURETE NUCLEAIRE">INSTIT RADIOPROTECTION SURETE NUCLEAIRE</option><option value="INSTITUT DE SOUDURE INDUSTRIE  REVERSE F">INSTITUT DE SOUDURE INDUSTRIE  REVERSE F</option><option value="INSTRUMENT & TRAITEMENT ESSAIS SUR SITES">INSTRUMENT & TRAITEMENT ESSAIS SUR SITES</option><option value="INSTRUMENT ET TRAITEMENT ESSAIS SUR SITE">INSTRUMENT ET TRAITEMENT ESSAIS SUR SITE</option><option value="INTERFLUENCE ENERGIES">INTERFLUENCE ENERGIES</option><option value="ISDEL ENERGIE - OMEXOM  E OPAR MAJ 08/20">ISDEL ENERGIE - OMEXOM  E OPAR MAJ 08/20</option><option value="ISDEL ENERGY - OMEXOM SIRET INACTIF DEPU">ISDEL ENERGY - OMEXOM SIRET INACTIF DEPU</option><option value="ISS FACILITY MANAGEMENT VOIR CF 650433">ISS FACILITY MANAGEMENT VOIR CF 650433</option><option value="JUNIUM AGENCE">JUNIUM AGENCE</option><option value="KAEFER WANNER">KAEFER WANNER</option><option value="KAEFER WANNER  E-OPAR - MAJ 07/2013">KAEFER WANNER  E-OPAR - MAJ 07/2013</option><option value="KELLAL MAINTENANCE">KELLAL MAINTENANCE</option><option value="KSB SERVICE ROBINETTERIE">KSB SERVICE ROBINETTERIE</option><option value="KSB SERVICES ETC ETC E-OPAR">KSB SERVICES ETC ETC E-OPAR</option><option value="LE TRAVAIL INTERIMAIRE LTI">LE TRAVAIL INTERIMAIRE LTI</option><option value="LEADER INTERIM 33">LEADER INTERIM 33</option><option value="LEMARECHAL CELESTIN">LEMARECHAL CELESTIN</option><option value="MAIN SECURITE">MAIN SECURITE</option><option value="MAINTENANCE MESURE CONTROLE MMC E-OPAR">MAINTENANCE MESURE CONTROLE MMC E-OPAR</option><option value="MAINTENANCE SECURITE INSTALLATION SERV M">MAINTENANCE SECURITE INSTALLATION SERV M</option><option value="MANPOWER FRANCE MANPOWER E OPAR">MANPOWER FRANCE MANPOWER E OPAR</option><option value="MASER ENGINEERING">MASER ENGINEERING</option><option value="MATERIELS INDUSTRIELS DE SECURITE">MATERIELS INDUSTRIELS DE SECURITE</option><option value="MEDIATEC">MEDIATEC</option><option value="METRAVIB INSTRUMENTS">METRAVIB INSTRUMENTS</option><option value="MGOP D'ADDARIO SARL">MGOP D'ADDARIO SARL</option><option value="MILLENNIUM  E-OPAR MAJ 11/2013">MILLENNIUM  E-OPAR MAJ 11/2013</option><option value="MONTEIRO">MONTEIRO</option><option value="MPQ ELECTRONIQUE">MPQ ELECTRONIQUE</option><option value="MTS">MTS</option><option value="NCT">NCT</option><option value="NETER CONSEIL">NETER CONSEIL</option><option value="NOE JACQUIER ENERGIE NJ ENERGIE 03/15">NOE JACQUIER ENERGIE NJ ENERGIE 03/15</option><option value="NOPHEA">NOPHEA</option><option value="NORD MAINTENANCE INDUSTRIELLE">NORD MAINTENANCE INDUSTRIELLE</option><option value="NORDON NE PLUS UTILISER ABSENCE D ACTIVI">NORDON NE PLUS UTILISER ABSENCE D ACTIVI</option><option value="NUVIA PROTECTION MECATISS">NUVIA PROTECTION MECATISS</option><option value="NUVIA PROTECTION MECATISS 10/14">NUVIA PROTECTION MECATISS 10/14</option><option value="NUVIA STRUCTURE">NUVIA STRUCTURE</option><option value="NUVIA STRUCTURE NTS E-OPAR">NUVIA STRUCTURE NTS E-OPAR</option><option value="NUVIA SUPPORT">NUVIA SUPPORT</option><option value="NUVIA SUPPORT  EOPAR">NUVIA SUPPORT  EOPAR</option><option value="OLDHAM  E-OPAR MAJ 01/2014 SERVAL NATI 2">OLDHAM  E-OPAR MAJ 01/2014 SERVAL NATI 2</option><option value="ONEPI">ONEPI</option><option value="ONEPI - AXXIS INTERIM ET RECRUTE">ONEPI - AXXIS INTERIM ET RECRUTE</option><option value="ONET SERVICES">ONET SERVICES</option><option value="OPTIM INDUSTRIES  E-OPAR - MAJ 07/2013">OPTIM INDUSTRIES  E-OPAR - MAJ 07/2013</option><option value="ORGANISATION DES TRAVAUX NUCLEAIRES   SE">ORGANISATION DES TRAVAUX NUCLEAIRES   SE</option><option value="ORYS">ORYS</option><option value="ORYS   BAGATELLE">ORYS   BAGATELLE</option><option value="ORYS ORYS MALALONNES">ORYS ORYS MALALONNES</option><option value="ORYS ORYS MALALONNES E-OPAR - NE PAS MOD">ORYS ORYS MALALONNES E-OPAR - NE PAS MOD</option><option value="OTIS">OTIS</option><option value="OTIS  E OPAR MAJ 11/2013">OTIS  E OPAR MAJ 11/2013</option><option value="OTND ONET TECH NUCLEAR DECOM. ONET TECHN">OTND ONET TECH NUCLEAR DECOM. ONET TECHN</option><option value="OUEST ACRO  04/14 DAILLY CF 366303 (0020">OUEST ACRO  04/14 DAILLY CF 366303 (0020</option><option value="OUVAROFF  E-OPAR - NE PAS MODIFIER">OUVAROFF  E-OPAR - NE PAS MODIFIER</option><option value="PERAZIO ENGINEERING  E OPAR">PERAZIO ENGINEERING  E OPAR</option><option value="PERKINELMER  E OPAR MAJ 08/2013">PERKINELMER  E OPAR MAJ 08/2013</option><option value="PERRIER TP CTPG  MUET">PERRIER TP CTPG  MUET</option><option value="PONTICELLI">PONTICELLI</option><option value="PONTICELLI FRERES  E-OPAR MAJ 04/2013">PONTICELLI FRERES  E-OPAR MAJ 04/2013</option><option value="POUJAUD">POUJAUD</option><option value="PREST' ALL LORRAINE">PREST' ALL LORRAINE</option><option value="PREZIOSO LINJEBYGG">PREZIOSO LINJEBYGG</option><option value="PROMAN SATI">PROMAN SATI</option><option value="PROMAN SATI PROMAN E-OPAR">PROMAN SATI PROMAN E-OPAR</option><option value="PROTECTIC PROTECTIC INGENIERIE">PROTECTIC PROTECTIC INGENIERIE</option><option value="QUALIS ZAC DES BEGNENNES">QUALIS ZAC DES BEGNENNES</option><option value="RANDSTAD">RANDSTAD</option><option value="REEL">REEL</option><option value="REEL  REVERSE FACTORING">REEL  REVERSE FACTORING</option><option value="REEL REEL AGENCE SUD">REEL REEL AGENCE SUD</option><option value="REEL SAS">REEL SAS</option><option value="ROBINETTERIE INDUSTR VALENTINOISE ROBIVA">ROBINETTERIE INDUSTR VALENTINOISE ROBIVA</option><option value="ROIRET SERVICES">ROIRET SERVICES</option><option value="ROLLS-ROYCE CIVIL NUCLEAR SAS">ROLLS-ROYCE CIVIL NUCLEAR SAS</option><option value="ROLLS-ROYCE NUCLEAR FIELD SCE FRANCE  E ">ROLLS-ROYCE NUCLEAR FIELD SCE FRANCE  E </option><option value="RS ENERGIE EURL">RS ENERGIE EURL</option><option value="S E P T E N">S E P T E N</option><option value="SADE CGTH">SADE CGTH</option><option value="SARENS DE COSTER">SARENS DE COSTER</option><option value="SARENS FRANCE">SARENS FRANCE</option><option value="SARL ANCOE">SARL ANCOE</option><option value="SARL COMI SERVICE">SARL COMI SERVICE</option><option value="SCE DEPARTEMENTAL INCENDIE ET SECOURS">SCE DEPARTEMENTAL INCENDIE ET SECOURS</option><option value="SDEL MULHOUSE  E-OPAR">SDEL MULHOUSE  E-OPAR</option><option value="SDIS">SDIS</option><option value="SDIS 45">SDIS 45</option><option value="SECURITAS FRANCE SARL">SECURITAS FRANCE SARL</option><option value="SERVHOR">SERVHOR</option><option value="SERVICE NETTOYAGE ET MANUTENTION NETMAN">SERVICE NETTOYAGE ET MANUTENTION NETMAN</option><option value="SERVICES ORGANISATION METHODES">SERVICES ORGANISATION METHODES</option><option value="SERVICES ORGANISATION METHODES IMM CENTR">SERVICES ORGANISATION METHODES IMM CENTR</option><option value="SERVICES ORGANISATION METHODES SIRET INA">SERVICES ORGANISATION METHODES SIRET INA</option><option value="SERVICES ORGANISATION METHODES SOM INGEN">SERVICES ORGANISATION METHODES SOM INGEN</option><option value="SERVICES ORGANISATION METHODES SOM MEDIT">SERVICES ORGANISATION METHODES SOM MEDIT</option><option value="SERVICES ORGANISATION METHODES SOM VAL D">SERVICES ORGANISATION METHODES SOM VAL D</option><option value="SETIS SETIS-GROUPE DEGAUD E-OPAR "ALYSE ">SETIS SETIS-GROUPE DEGAUD E-OPAR "ALYSE </option><option value="SGS QUALITEST INDUSTRIE">SGS QUALITEST INDUSTRIE</option><option value="SGS QUALITEST INDUSTRIE  EOPAR">SGS QUALITEST INDUSTRIE  EOPAR</option><option value="SIEMPELKAMP MSDG SARL">SIEMPELKAMP MSDG SARL</option><option value="SIGEDI">SIGEDI</option><option value="SIGEDI  E OPAR MAJ 07/2013">SIGEDI  E OPAR MAJ 07/2013</option><option value="SIGEDI  E-OPAR">SIGEDI  E-OPAR</option><option value="SITES 20A">SITES 20A</option><option value="SNEF">SNEF</option><option value="SNIG">SNIG</option><option value="SOC DE FORMATION RHONE ALPES">SOC DE FORMATION RHONE ALPES</option><option value="SOC DES TECHNIQUES EN MILIEU IONISANT">SOC DES TECHNIQUES EN MILIEU IONISANT</option><option value="SOC FRANCO BELGE FABRICATION C">SOC FRANCO BELGE FABRICATION C</option><option value="SOC INDUSTRIES GENERALES EQUIPEM DIVERS ">SOC INDUSTRIES GENERALES EQUIPEM DIVERS </option><option value="SOC TRAVAUX INGENIERIE INDUSTRIELLE STII">SOC TRAVAUX INGENIERIE INDUSTRIELLE STII</option><option value="SOCIETE D'ASSISTANCE ET DE SERVICES">SOCIETE D'ASSISTANCE ET DE SERVICES</option><option value="SOCOTEC FRANCE  04/14">SOCOTEC FRANCE  04/14</option><option value="SOCOTEC POWER SERVICES">SOCOTEC POWER SERVICES</option><option value="SODEC INDUSTRIE  E OPAR  596138 (0090)/3">SODEC INDUSTRIE  E OPAR  596138 (0090)/3</option><option value="SOPREMA ENTREPRISES  E-OPAR - MAJ 11/201">SOPREMA ENTREPRISES  E-OPAR - MAJ 11/201</option><option value="SOVITRAT 13">SOVITRAT 13</option><option value="SPIE DEMANTELEMENT ENVIRON NUCLEAIRE SPI">SPIE DEMANTELEMENT ENVIRON NUCLEAIRE SPI</option><option value="SPIE NUCLEAIRE">SPIE NUCLEAIRE</option><option value="SRA INSTRUMENTS">SRA INSTRUMENTS</option><option value="SRA SAVAC">SRA SAVAC</option><option value="START PEOPLE">START PEOPLE</option><option value="STARTPEOPLE">STARTPEOPLE</option><option value="STE D'ETANCHEITE DE L'OUEST GCEO">STE D'ETANCHEITE DE L'OUEST GCEO</option><option value="STE DES TECHNIQUES EN MILIEU IONISANT ST">STE DES TECHNIQUES EN MILIEU IONISANT ST</option><option value="STE ETUDE CONSEIL TECHNOLOGIE ORGANISATI">STE ETUDE CONSEIL TECHNOLOGIE ORGANISATI</option><option value="STMI">STMI</option><option value="SYNERGIE">SYNERGIE</option><option value="T.C.C.">T.C.C.</option><option value="TECH MAINTENANCE ASSIST. NUCLEAIRES">TECH MAINTENANCE ASSIST. NUCLEAIRES</option><option value="TECHMAN INDUSTRIE">TECHMAN INDUSTRIE</option><option value="TECHMAN INDUSTRIE  REVERSE FACTORING">TECHMAN INDUSTRIE  REVERSE FACTORING</option><option value="TECHMAN INDUSTRIE ONET TECHNOLOGIES">TECHMAN INDUSTRIE ONET TECHNOLOGIES</option><option value="TECHMAN INDUSTRIE ONET TECHNOLOGIES REVE">TECHMAN INDUSTRIE ONET TECHNOLOGIES REVE</option><option value="TECHNIQUES MAINTENANCE ASSIST NUCLEAIRE">TECHNIQUES MAINTENANCE ASSIST NUCLEAIRE</option><option value="TECHSIM TECHSIM PROVENCE E OPAR MAJ 09/2">TECHSIM TECHSIM PROVENCE E OPAR MAJ 09/2</option><option value="TN INTERNATIONAL">TN INTERNATIONAL</option><option value="TRACTEBEL ENGINEERING TRACTEBEL ENGINEER">TRACTEBEL ENGINEERING TRACTEBEL ENGINEER</option><option value="TRANS'MECA SIRET INACTIF E-OPAR DAILLY:3">TRANS'MECA SIRET INACTIF E-OPAR DAILLY:3</option><option value="TRIHOM">TRIHOM</option><option value="TYCO ELECTRONICS FRANCE SAS  E-OPAR N'EM">TYCO ELECTRONICS FRANCE SAS  E-OPAR N'EM</option><option value="ULM">ULM</option><option value="UNIE">UNIE</option><option value="UNITE DE FORMATION P I">UNITE DE FORMATION P I</option><option value="UNITE INGENIERIE EXPLOITATION">UNITE INGENIERIE EXPLOITATION</option><option value="UNITE LOGISTIQUE MAINTENANCE">UNITE LOGISTIQUE MAINTENANCE</option><option value="UNITE TECHNIQUE OPERATIONNELLE">UNITE TECHNIQUE OPERATIONNELLE</option><option value="UNITEP">UNITEP</option><option value="VALEMPLOI ARDENNES POLE ENTREPRISE COMMU">VALEMPLOI ARDENNES POLE ENTREPRISE COMMU</option><option value="VALIANCE  REVERSE FACTORING">VALIANCE  REVERSE FACTORING</option><option value="VISITEUR AVEC DOSE">VISITEUR AVEC DOSE</option><option value="WESTINGHOUSE ELECTRIC BELGIUM">WESTINGHOUSE ELECTRIC BELGIUM</option><option value="WESTINGHOUSE ELECTRIQUE FRANCE SAS">WESTINGHOUSE ELECTRIQUE FRANCE SAS</option><option value="WESTINGHOUSE OPERATIONS NUCLEAIRES SAS">WESTINGHOUSE OPERATIONS NUCLEAIRES SAS</option><option value="WORLD ASSOC OF NUCLEAR OPERATORS PARIS">WORLD ASSOC OF NUCLEAR OPERATORS PARIS</option><option value="crit interim">crit interim</option>
+		</select>
+	</label>
+
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+	<div align="center" id="contenu7" style="display:none">
+    	<h2>Afficher une liste de personnes et les différentes statistiques correspondant à la spécialité sélectionnée</h2>
+    <div class="form-style">
+	<form action="/type7" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="BUG">BUG</option>
+			<option value="FLA">FLA</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label for="specialite">
+		<span>Spécialité</span>
+		<select name="specialite" class="select-field">
+			<option value="AEI">AEI</option><option value="AIQ">AIQ</option><option value="AUT">AUT</option><option value="CAL">CAL</option><option value="CHA">CHA</option><option value="DIR">DIR</option><option value="ECH">ECH</option><option value="ELE">ELE</option><option value="END">END</option><option value="ESS">ESS</option><option value="EXP">EXP</option><option value="GCV">GCV</option><option value="GMK">GMK</option><option value="IDS">IDS</option><option value="INF">INF</option><option value="IPE">IPE</option><option value="LAB">LAB</option><option value="LEV">LEV</option><option value="LNU">LNU</option><option value="MEC">MEC</option><option value="PJT">PJT</option><option value="PRS">PRS</option><option value="ROB">ROB</option><option value="SGE">SGE</option><option value="SIR">SIR</option><option value="SOU">SOU</option><option value="SPR">SPR</option><option value="SUR">SUR</option><option value="VCL">VCL</option><option value="VIS">VIS</option><option value="ZHE">ZHE</option>
+		</select>
+	</label>
+
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+	<div align="center" id="contenu8" style="display:none">
+    	<h2>Afficher une liste de personnes et les différentes statistiques correspondant à l'heure d'entrée</h2>
+    <div class="form-style">
+	<form action="/type8" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="BUG">BUG</option>
+			<option value="FLA">FLA</option>
+		</select>
+	</label>
+
+	<label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+    <label for="timeDe">
+		<span>Heure début</span>
+		<input required type="time" class="time-field" name="timeDe"/>
+	</label>
+
+    <label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label for="timeA">
+		<span>Heure fin</span>
+		<input required type="time" class="time-field" name="timeA"/>
+	</label>
+
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+	<div align="center" id="contenu9" style="display:none">
+    	<h2>Afficher une liste de personnes et les différentes statistiques correspondant à l'heure de sortie</h2>
+    <div class="form-style">
+	<form action="/type9" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="BUG">BUG</option>
+			<option value="FLA">FLA</option>
+		</select>
+	</label>
+		<label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-04-01"/>
+	</label>
+
+    <label for="timeDe">
+		<span>Heure début</span>
+		<input required type="time" class="time-field" name="timeDe"/>
+	</label>
+
+    <label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-04-01"/>
+	</label>
+
+	<label for="timeA">
+		<span>Heure fin</span>
+		<input required type="time" class="time-field" name="timeA"/>
+	</label>
+
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+	<div align="center" id="contenu10" style="display:none">
+    	<h2>Afficher une liste de personnes et les différentes statistiques correspondant au temps de présence</h2>
+    <div class="form-style">
+	<form action="/type10" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="BUG">BUG</option>
+			<option value="FLA">FLA</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-04-01"/>
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-04-01"/>
+	</label>
+
+	<label for="temps">
+		<span>Temps</span>
+		<select name="temps" class="select-field">
+			<option>0H30</option>
+			<option>1H</option>
+			<option>1H30</option>
+			<option>2H</option>
+            <option>2H30</option>
+			<option>3H</option>
+            <option>3H30</option>
+			<option>4H</option>
+            <option>4H30</option>
+			<option>5H</option>
+            <option>5H30</option>
+			<option>6H</option>
+            <option>6H30</option>
+			<option>>7H</option>
+		</select>
+	</label>
+
+
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+    <div align="center" id="contenu11" style="display:none">
+    	<h2>Intervention selon date</h2>
+    <div class="form-style">
+	<form action="/type11" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="BUG">BUG</option>
+			<option value="FLA">FLA</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+	<div align="center" id="contenu12" style="display:none">
+    	<h2>Rechercher un intervenant, en sachant qu'un intervenant peut travailler dans différentes entreprises,
+			avoir différentes natures de contrat et différentes spécialités pour chaque intervention</h2>
+    <div class="form-style">
+	<form action="/type12" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="BUG">BUG (Matricule commencé par M3)</option>
+			<option value="FLA">FLA (Matricule commencé par M4)</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-04-30"/>
+	</label>
+
+	<label for="intervenant">
+		<span>Intervenant</span>
+		<select name="intervenant" class="select-field">
+			<option value="M32476276">M32476276</option><option value="M32476285">M32476285</option><option value="M32476303">M32476303</option><option value="M32476307">M32476307</option><option value="M32476358">M32476358</option><option value="M32476365">M32476365</option><option value="M32476366">M32476366</option><option value="M32476369">M32476369</option><option value="M32476378">M32476378</option><option value="M32476401">M32476401</option><option value="M32476406">M32476406</option><option value="M32476441">M32476441</option><option value="M32476467">M32476467</option><option value="M32476576">M32476576</option><option value="M32476577">M32476577</option><option value="M32476582">M32476582</option><option value="M32476632">M32476632</option><option value="M32476648">M32476648</option><option value="M32476706">M32476706</option><option value="M32476771">M32476771</option><option value="M32476898">M32476898</option><option value="M32476908">M32476908</option><option value="M32476914">M32476914</option><option value="M32477052">M32477052</option><option value="M32477110">M32477110</option><option value="M32477127">M32477127</option><option value="M32477128">M32477128</option><option value="M32477167">M32477167</option><option value="M32477299">M32477299</option><option value="M32477362">M32477362</option><option value="M32477406">M32477406</option><option value="M32477437">M32477437</option><option value="M32477439">M32477439</option><option value="M32477458">M32477458</option><option value="M32477490">M32477490</option><option value="M32477511">M32477511</option><option value="M32477573">M32477573</option><option value="M32477730">M32477730</option><option value="M32478120">M32478120</option><option value="M32478235">M32478235</option><option value="M32478517">M32478517</option><option value="M32478576">M32478576</option><option value="M32478659">M32478659</option><option value="M32478733">M32478733</option><option value="M32478820">M32478820</option><option value="M32479109">M32479109</option><option value="M32479113">M32479113</option><option value="M32479293">M32479293</option><option value="M32479340">M32479340</option><option value="M32479341">M32479341</option><option value="M32479455">M32479455</option><option value="M32479508">M32479508</option><option value="M32479549">M32479549</option><option value="M32479730">M32479730</option><option value="M32479737">M32479737</option><option value="M32479935">M32479935</option><option value="M32479944">M32479944</option><option value="M32479966">M32479966</option><option value="M32479970">M32479970</option><option value="M32480032">M32480032</option><option value="M32480112">M32480112</option><option value="M32480175">M32480175</option><option value="M32480230">M32480230</option><option value="M32480236">M32480236</option><option value="M32480246">M32480246</option><option value="M32480391">M32480391</option><option value="M32480442">M32480442</option><option value="M32480466">M32480466</option><option value="M32480470">M32480470</option><option value="M32480474">M32480474</option><option value="M32480596">M32480596</option><option value="M32480701">M32480701</option><option value="M32480710">M32480710</option><option value="M32480711">M32480711</option><option value="M32480713">M32480713</option><option value="M32480719">M32480719</option><option value="M32480734">M32480734</option><option value="M32480956">M32480956</option><option value="M32481098">M32481098</option><option value="M32481242">M32481242</option><option value="M32481252">M32481252</option><option value="M32481447">M32481447</option><option value="M32481499">M32481499</option><option value="M32481577">M32481577</option><option value="M32481587">M32481587</option><option value="M32481775">M32481775</option><option value="M32481808">M32481808</option><option value="M32481814">M32481814</option><option value="M32481839">M32481839</option><option value="M32481933">M32481933</option><option value="M32481940">M32481940</option><option value="M32481958">M32481958</option><option value="M32482146">M32482146</option><option value="M32482218">M32482218</option><option value="M32482247">M32482247</option><option value="M32482252">M32482252</option><option value="M32482262">M32482262</option><option value="M32482271">M32482271</option><option value="M32482359">M32482359</option><option value="M32482509">M32482509</option><option value="M32482731">M32482731</option><option value="M32482824">M32482824</option><option value="M32482881">M32482881</option><option value="M32483098">M32483098</option><option value="M32483105">M32483105</option><option value="M32483429">M32483429</option><option value="M32483471">M32483471</option><option value="M32483756">M32483756</option><option value="M32483981">M32483981</option><option value="M32484020">M32484020</option><option value="M32484185">M32484185</option><option value="M32484206">M32484206</option><option value="M32484211">M32484211</option><option value="M32484212">M32484212</option><option value="M32484214">M32484214</option><option value="M32484227">M32484227</option><option value="M32484239">M32484239</option><option value="M32484408">M32484408</option><option value="M32484425">M32484425</option><option value="M32484598">M32484598</option><option value="M32484815">M32484815</option><option value="M32484846">M32484846</option><option value="M32484893">M32484893</option><option value="M32484925">M32484925</option><option value="M32484960">M32484960</option><option value="M32484983">M32484983</option><option value="M32485034">M32485034</option><option value="M32485189">M32485189</option><option value="M32485193">M32485193</option><option value="M32485209">M32485209</option><option value="M32485242">M32485242</option><option value="M32485260">M32485260</option><option value="M32485293">M32485293</option><option value="M32485500">M32485500</option><option value="M32485517">M32485517</option><option value="M32485603">M32485603</option><option value="M32485662">M32485662</option><option value="M32485680">M32485680</option><option value="M32485691">M32485691</option><option value="M32485757">M32485757</option><option value="M32485986">M32485986</option><option value="M32486091">M32486091</option><option value="M32486188">M32486188</option><option value="M32486258">M32486258</option><option value="M32486269">M32486269</option><option value="M32486318">M32486318</option><option value="M32486343">M32486343</option><option value="M32486452">M32486452</option><option value="M32486630">M32486630</option><option value="M32486632">M32486632</option><option value="M32486641">M32486641</option><option value="M32486679">M32486679</option><option value="M32486693">M32486693</option><option value="M32486707">M32486707</option><option value="M32486708">M32486708</option><option value="M32486714">M32486714</option><option value="M32486785">M32486785</option><option value="M32487112">M32487112</option><option value="M32487149">M32487149</option><option value="M32487179">M32487179</option><option value="M32487181">M32487181</option><option value="M32487438">M32487438</option><option value="M32487472">M32487472</option><option value="M32487802">M32487802</option><option value="M32487822">M32487822</option><option value="M32487871">M32487871</option><option value="M32487908">M32487908</option><option value="M32487922">M32487922</option><option value="M32487956">M32487956</option><option value="M32488096">M32488096</option><option value="M32488140">M32488140</option><option value="M32488164">M32488164</option><option value="M32488211">M32488211</option><option value="M32488252">M32488252</option><option value="M32488286">M32488286</option><option value="M32488304">M32488304</option><option value="M32488682">M32488682</option><option value="M32488690">M32488690</option><option value="M32488708">M32488708</option><option value="M32488711">M32488711</option><option value="M32488748">M32488748</option><option value="M32488751">M32488751</option><option value="M32488767">M32488767</option><option value="M32488783">M32488783</option><option value="M32488800">M32488800</option><option value="M32488820">M32488820</option><option value="M32488833">M32488833</option><option value="M32489260">M32489260</option><option value="M32489344">M32489344</option><option value="M32489391">M32489391</option><option value="M32489440">M32489440</option><option value="M32489584">M32489584</option><option value="M32489668">M32489668</option><option value="M32489868">M32489868</option><option value="M32489952">M32489952</option><option value="M32490096">M32490096</option><option value="M32490100">M32490100</option><option value="M32490163">M32490163</option><option value="M32490184">M32490184</option><option value="M32490197">M32490197</option><option value="M32490303">M32490303</option><option value="M32490341">M32490341</option><option value="M32490356">M32490356</option><option value="M32490394">M32490394</option><option value="M32490433">M32490433</option><option value="M32490459">M32490459</option><option value="M32490490">M32490490</option><option value="M32490523">M32490523</option><option value="M32490615">M32490615</option><option value="M32490642">M32490642</option><option value="M32490872">M32490872</option><option value="M32490874">M32490874</option><option value="M32490887">M32490887</option><option value="M32490911">M32490911</option><option value="M32491010">M32491010</option><option value="M32491148">M32491148</option><option value="M32491236">M32491236</option><option value="M32491253">M32491253</option><option value="M32491330">M32491330</option><option value="M32491490">M32491490</option><option value="M32491500">M32491500</option><option value="M32491930">M32491930</option><option value="M32491974">M32491974</option><option value="M32491983">M32491983</option><option value="M32492019">M32492019</option><option value="M32492034">M32492034</option><option value="M32492038">M32492038</option><option value="M32492071">M32492071</option><option value="M32492072">M32492072</option><option value="M32492092">M32492092</option><option value="M32492098">M32492098</option><option value="M32492103">M32492103</option><option value="M32492104">M32492104</option><option value="M32492105">M32492105</option><option value="M32492121">M32492121</option><option value="M32492130">M32492130</option><option value="M32492142">M32492142</option><option value="M32492175">M32492175</option><option value="M32492197">M32492197</option><option value="M32492225">M32492225</option><option value="M32492230">M32492230</option><option value="M32492232">M32492232</option><option value="M32492242">M32492242</option><option value="M32492893">M32492893</option><option value="M32492978">M32492978</option><option value="M32493075">M32493075</option><option value="M32493149">M32493149</option><option value="M32493297">M32493297</option><option value="M32493327">M32493327</option><option value="M32493591">M32493591</option><option value="M32493640">M32493640</option><option value="M32493703">M32493703</option><option value="M32493743">M32493743</option><option value="M32493824">M32493824</option><option value="M32493841">M32493841</option><option value="M32493904">M32493904</option><option value="M32493926">M32493926</option><option value="M32493954">M32493954</option><option value="M32493962">M32493962</option><option value="M32494142">M32494142</option><option value="M32494215">M32494215</option><option value="M32494330">M32494330</option><option value="M32494485">M32494485</option><option value="M32494503">M32494503</option><option value="M32494518">M32494518</option><option value="M32494554">M32494554</option><option value="M32494625">M32494625</option><option value="M32494718">M32494718</option><option value="M32494753">M32494753</option><option value="M32494775">M32494775</option><option value="M32494981">M32494981</option><option value="M32494997">M32494997</option><option value="M32495166">M32495166</option><option value="M32495178">M32495178</option><option value="M32495226">M32495226</option><option value="M32495251">M32495251</option><option value="M32495343">M32495343</option><option value="M32495438">M32495438</option><option value="M32495450">M32495450</option><option value="M32495586">M32495586</option><option value="M32495606">M32495606</option><option value="M32495706">M32495706</option><option value="M32495945">M32495945</option><option value="M32495975">M32495975</option><option value="M32496056">M32496056</option><option value="M32496106">M32496106</option><option value="M32496188">M32496188</option><option value="M32496192">M32496192</option><option value="M32497769">M32497769</option><option value="M32498441">M32498441</option><option value="M32500011">M32500011</option><option value="M32500092">M32500092</option><option value="M32500106">M32500106</option><option value="M32500108">M32500108</option><option value="M32500118">M32500118</option><option value="M32500150">M32500150</option><option value="M32500154">M32500154</option><option value="M32500173">M32500173</option><option value="M32500204">M32500204</option><option value="M32500260">M32500260</option><option value="M32500276">M32500276</option><option value="M32500303">M32500303</option><option value="M32500304">M32500304</option><option value="M32500325">M32500325</option><option value="M32500334">M32500334</option><option value="M32500342">M32500342</option><option value="M32500358">M32500358</option><option value="M32500359">M32500359</option><option value="M32500364">M32500364</option><option value="M32501073">M32501073</option><option value="M32501085">M32501085</option><option value="M32501173">M32501173</option><option value="M32501178">M32501178</option><option value="M32501215">M32501215</option><option value="M32501253">M32501253</option><option value="M32501497">M32501497</option><option value="M32501516">M32501516</option><option value="M32501537">M32501537</option><option value="M32501545">M32501545</option><option value="M32501615">M32501615</option><option value="M32501616">M32501616</option><option value="M32501621">M32501621</option><option value="M32501623">M32501623</option><option value="M32501666">M32501666</option><option value="M32501825">M32501825</option><option value="M32501960">M32501960</option><option value="M32501971">M32501971</option><option value="M32502005">M32502005</option><option value="M32502130">M32502130</option><option value="M32502306">M32502306</option><option value="M32502435">M32502435</option><option value="M32502468">M32502468</option><option value="M32502523">M32502523</option><option value="M32502591">M32502591</option><option value="M32502611">M32502611</option><option value="M32502629">M32502629</option><option value="M32502665">M32502665</option><option value="M32502674">M32502674</option><option value="M32502732">M32502732</option><option value="M32502740">M32502740</option><option value="M32502776">M32502776</option><option value="M32502821">M32502821</option><option value="M32502844">M32502844</option><option value="M32502869">M32502869</option><option value="M32502945">M32502945</option><option value="M32502979">M32502979</option><option value="M32503045">M32503045</option><option value="M32503095">M32503095</option><option value="M32503107">M32503107</option><option value="M32503223">M32503223</option><option value="M32503377">M32503377</option><option value="M32503745">M32503745</option><option value="M32503747">M32503747</option><option value="M32503811">M32503811</option><option value="M32503832">M32503832</option><option value="M32503900">M32503900</option><option value="M32503984">M32503984</option><option value="M32503998">M32503998</option><option value="M43206930">M43206930</option><option value="M43207044">M43207044</option><option value="M43207045">M43207045</option><option value="M43207059">M43207059</option><option value="M43207097">M43207097</option><option value="M43207520">M43207520</option><option value="M43207781">M43207781</option><option value="M43208051">M43208051</option><option value="M43208498">M43208498</option><option value="M43209026">M43209026</option><option value="M43209235">M43209235</option><option value="M43209471">M43209471</option><option value="M43210203">M43210203</option><option value="M43212369">M43212369</option><option value="M43212826">M43212826</option><option value="M43212855">M43212855</option><option value="M43213175">M43213175</option><option value="M43213217">M43213217</option><option value="M43213257">M43213257</option><option value="M43213307">M43213307</option><option value="M43213347">M43213347</option><option value="M43213546">M43213546</option><option value="M43213703">M43213703</option><option value="M43213757">M43213757</option><option value="M43214873">M43214873</option><option value="M43215353">M43215353</option><option value="M43215447">M43215447</option><option value="M43215641">M43215641</option><option value="M43215775">M43215775</option><option value="M43215928">M43215928</option><option value="M43216043">M43216043</option><option value="M43216346">M43216346</option><option value="M43216526">M43216526</option><option value="M43216527">M43216527</option><option value="M43216639">M43216639</option><option value="M43216924">M43216924</option><option value="M43217057">M43217057</option><option value="M43217345">M43217345</option><option value="M43217773">M43217773</option><option value="M43217830">M43217830</option><option value="M43217878">M43217878</option><option value="M43217925">M43217925</option><option value="M43218269">M43218269</option><option value="M43218415">M43218415</option><option value="M43218734">M43218734</option><option value="M43218786">M43218786</option><option value="M43218964">M43218964</option><option value="M43219150">M43219150</option><option value="M43219186">M43219186</option><option value="M43219187">M43219187</option><option value="M43219404">M43219404</option><option value="M43219405">M43219405</option><option value="M43220077">M43220077</option><option value="M43220134">M43220134</option><option value="M43220135">M43220135</option><option value="M43220136">M43220136</option><option value="M43220338">M43220338</option><option value="M43220392">M43220392</option><option value="M43220476">M43220476</option><option value="M43221254">M43221254</option><option value="M43221844">M43221844</option><option value="M43221977">M43221977</option><option value="M43221978">M43221978</option><option value="M43222303">M43222303</option><option value="M43222586">M43222586</option><option value="M43222587">M43222587</option>
+		</select>
+	</label>
+
+
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+	
+	
+
+	<div align="center" id="contenu20" style="display:none">
+    	<h2>Calculer le nombre d'outils sortant du magasin selon un horaire et date définis</h2>
+    <div class="form-style">
+	<form action="/type20" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="TRI">TRI</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-05-01"/>
+	</label>
+
+	<label for="timeDe">
+		<span>Heure début</span>
+		<input required type="time" class="time-field" name="timeDe"/>
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-05-01"/>
+	</label>
+
+	<label for="timeA">
+		<span>Heure fin</span>
+		<input required type="time" class="time-field" name="timeA"/>
+	</label>
+
+	<label><span>&nbsp</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+    <div align="center" id="contenu21" style="display:none">
+    	<h2>Calculer le nombre d'outils qui sont délivrés au guichet chaque 10-15-30-60 minutes selon une période définie</h2>
+    <div class="form-style">
+	<form action="/type21" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="TRI">TRI</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-05-01"/>
+	</label>
+
+	<label for="timeDe">
+		<span>Heure début</span>
+		<input required type="time" class="time-field" name="timeDe" />
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-05-01"/>
+	</label>
+
+	<label for="timeA">
+		<span>Heure fin</span>
+		<input required type="time" class="time-field" name="timeA" />
+	</label>
+
+	<label for="periode">
+		<span>Période (Minutes)</span>
+		<select name="periode" class="select-field">
+			<option value="10">10</option>
+			<option value="15">15</option>
+			<option value="30">30</option>
+			<option value="60">60</option>
+		</select>
+	</label>
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+    <div align="center" id="contenu22" style="display:none">
+    	<h2>Calculer le nombre de clients servis : emprunts et/ou prolongations d'emprunts d'outils</h2>
+    <div class="form-style">
+	<form action="/type22" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="TRI">TRI</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-05-01"/>
+	</label>
+
+	<label for="timeDe">
+		<span>Heure début</span>
+		<input required type="time" class="time-field" name="timeDe" />
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-05-01"/>
+	</label>
+
+	<label for="timeA">
+		<span>Heure fin</span>
+		<input required type="time" class="time-field" name="timeA" />
+	</label>
+
+	<label for="periode">
+		<span>Période (Minutes)</span>
+		<select name="periode" class="select-field">
+			<option value="10">10</option>
+			<option value="15">15</option>
+			<option value="30">30</option>
+			<option value="60">60</option>
+		</select>
+	</label>
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+	<div align="center" id="contenu23" style="display:none">
+    	<h2>Calculer le nombre d'outils sortant des magasins pour anomalie</h2>
+    <div class="form-style">
+	<form action="/type23" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="TRI">TRI</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-05-01"/>
+	</label>
+
+	<label for="timeDe">
+		<span>Heure début</span>
+		<input required type="time" class="time-field" name="timeDe" />
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-05-01"/>
+	</label>
+	<label for="timeA">
+		<span>Heure fin</span>
+		<input required type="time" class="time-field" name="timeA" />
+	</label>
+
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+	<div align="center" id="contenu24" style="display:none">
+    	<h2>Calculer le nombre d'outils sortant des magasins pour mise au rebus</h2>
+    <div class="form-style">
+	<form action="/type24" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="TRI">TRI</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-05-01"/>
+	</label>
+
+	<label for="timeDe">
+		<span>Heure début</span>
+		<input required type="time" class="time-field" name="timeDe" />
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-05-01"/>
+	</label>
+
+	<label for="timeA">
+		<span>Heure fin</span>
+		<input required type="time" class="time-field" name="timeA" />
+	</label>
+
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+	<div align="center" id="contenu25" style="display:none">
+    	<h2>Calculer le nombre de mouvements par magasin selon la plage temporelle</h2>
+    <div class="form-style">
+	<form action="/type25" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="TRI">TRi</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-05-01"/>
+	</label>
+
+	<label for="timeDe">
+		<span>Heure début</span>
+		<input required type="time" class="time-field" name="timeDe" />
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-05-01"/>
+	</label>
+
+	<label for="timeA">
+		<span>Heure fin</span>
+		<input required type="time" class="time-field" name="timeA" />
+	</label>
+
+	<label for="magasin">
+		<span>Magasin</span>
+		<select name="magasin" class="select-field">
+			<option value="AEI">AEI</option><option value="MAG 8">MAG 8</option><option value="MAG 9">MAG 9</option><option value="MAG ATC">MAG ATC</option><option value="MAG BUR LEVAG">MAG BUR LEVAG</option><option value="MAG CA">MAG CA</option><option value="MAG SPEC 9">MAG SPEC 9</option><option value="MAG SPEC FROID">MAG SPEC FROID</option><option value="MAG SRM">MAG SRM</option><option value="MAG SRM ATC">MAG SRM ATC</option><option value="MCE ES">MCE ES</option><option value="PERTE MCR">PERTE MCR</option>
+		</select>
+	</label>
+
+	<label for="periode">
+		<span>Période (Minutes)</span>
+		<select name="periode" class="select-field">
+			<option value="10">10</option>
+			<option value="15">15</option>
+			<option value="30">30</option>
+			<option value="60">60</option>
+		</select>
+	</label>
+
+
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+	<div align="center" id="contenu26" style="display:none">
+    	<h2>Calculer le nombre de sorties pour rebus et anomalies par magasin</h2>
+    <div class="form-style">
+	<form action="/type26" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="TRI">TRI</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-05-01"/>
+	</label>
+
+	<label for="timeDe">
+		<span>Heure début</span>
+		<input required type="time" class="time-field" name="timeDe" />
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-05-01"/>
+	</label>
+
+	<label for="timeA">
+		<span>Heure fin</span>
+		<input required type="time" class="time-field" name="timeA" />
+	</label>
+
+	<label for="magasin">
+		<span>Magasin</span>
+		<select name="magasin" class="select-field">
+			<option value="AEI">AEI</option><option value="MAG 8">MAG 8</option><option value="MAG 9">MAG 9</option><option value="MAG ATC">MAG ATC</option><option value="MAG BUR LEVAG">MAG BUR LEVAG</option><option value="MAG CA">MAG CA</option><option value="MAG SPEC 9">MAG SPEC 9</option><option value="MAG SPEC FROID">MAG SPEC FROID</option><option value="MAG SRM">MAG SRM</option><option value="MAG SRM ATC">MAG SRM ATC</option><option value="MCE ES">MCE ES</option><option value="PERTE MCR">PERTE MCR</option>
+		</select>
+	</label>
+
+
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+	<div align="center" id="contenu27" style="display:none">
+    	<h2>Calculer le nombre d'emprunts par client</h2>
+    <div class="form-style">
+	<form action="/type27" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="TRI">TRI</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-05-01"/>
+	</label>
+
+	<label for="timeDe">
+		<span>Heure début</span>
+		<input required type="time" class="time-field" name="timeDe" />
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-05-01"/>
+	</label>
+
+	<label for="timeA">
+		<span>Heure fin</span>
+		<input required type="time" class="time-field" name="timeA" />
+	</label>
+
+	<label for="client">
+		<span>Client</span>
+		<select name="client" class="select-field">
+			<option value="A02174">A02174</option><option value="A74676">A74676</option><option value="A82554">A82554</option><option value="AB3563FN">AB3563FN</option><option value="AC04699S">AC04699S</option><option value="AF44C1CN">AF44C1CN</option><option value="AR367D6N">AR367D6N</option><option value="B21253">B21253</option><option value="BP06626S">BP06626S</option><option value="BQ3E030N">BQ3E030N</option><option value="C35271">C35271</option><option value="C43574">C43574</option><option value="C97972">C97972</option><option value="CC13DFFN">CC13DFFN</option><option value="CG02276M">CG02276M</option><option value="D35370">D35370</option><option value="D74272">D74272</option><option value="DD10359N">DD10359N</option><option value="DH34E4EN">DH34E4EN</option><option value="E08072">E08072</option><option value="E09656">E09656</option><option value="E60531">E60531</option><option value="E96857">E96857</option><option value="FK04660S">FK04660S</option><option value="FQ0DAADN">FQ0DAADN</option><option value="G84109">G84109</option><option value="G89943">G89943</option><option value="GB37C7BN">GB37C7BN</option><option value="HD430C6N">HD430C6N</option><option value="I46256">I46256</option><option value="J23171">J23171</option><option value="J89470">J89470</option><option value="JM33E6DN">JM33E6DN</option><option value="LV34E51N">LV34E51N</option><option value="MA43096N">MA43096N</option><option value="MC437E2N">MC437E2N</option><option value="NC43095N">NC43095N</option><option value="NM00070S">NM00070S</option><option value="NR36EA0N">NR36EA0N</option><option value="PB36EA1N">PB36EA1N</option><option value="SJ06861S">SJ06861S</option><option value="SJ43098N">SJ43098N</option><option value="SS36E65N">SS36E65N</option><option value="TA03858S">TA03858S</option><option value="VB36E9DN">VB36E9DN</option><option value="YD06655S">YD06655S</option>
+		</select>
+	</label>
+
+	<label for="periode">
+		<span>Période (Minutes)</span>
+		<select name="periode" class="select-field">
+			<option value="10">10</option>
+			<option value="15">15</option>
+			<option value="30">30</option>
+			<option value="60">60</option>
+		</select>
+	</label>
+
+
+
+
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+
+	<div align="center" id="contenu28" style="display:none">
+    	<h2>Calculer le nombre de mouvements par entreprise</h2>
+    <div class="form-style">
+	<form action="/type28" method="get">
+    <label for="site">
+		<span>Site</span>
+		<select name="site" class="select-field">
+			<option value="TRI">TRI</option>
+		</select>
+	</label>
+
+    <label for="dateDe">
+		<span>Date début</span>
+		<input required type="date" class="date-field" name="dateDe" value="" max="2017-06-30" min="2017-05-01"/>
+	</label>
+
+	<label for="timeDe">
+		<span>Heure début</span>
+		<input required type="time" class="time-field" name="timeDe" />
+	</label>
+
+	<label for="dateA">
+		<span>Date fin</span>
+		<input required type="date" class="date-field" name="dateA" value="" max="2017-06-30" min="2017-05-01">
+	</label>
+
+	<label for="timeA">
+		<span>Heure fin</span>
+		<input required type="time" class="time-field" name="timeA" />
+	</label>
+
+	<label for="entreprise2">
+		<span>Entreprise</span>
+		<select name="entreprise2" class="select-field">
+			<option value="A111544">A111544</option><option value="A112745">A112745</option><option value="A113159">A113159</option><option value="A113179">A113179</option><option value="A113427">A113427</option><option value="A113814">A113814</option><option value="A113845">A113845</option><option value="A114049">A114049</option><option value="A114161">A114161</option><option value="A115451">A115451</option><option value="A115755">A115755</option><option value="A115997">A115997</option><option value="A116044">A116044</option><option value="A116099">A116099</option><option value="A116314">A116314</option><option value="A116547">A116547</option><option value="A116569">A116569</option><option value="A116640">A116640</option><option value="A116705">A116705</option><option value="A116905">A116905</option><option value="A116925">A116925</option><option value="A117413">A117413</option><option value="A117458">A117458</option><option value="A117686">A117686</option><option value="A117691">A117691</option><option value="A118027">A118027</option><option value="A118566">A118566</option><option value="A118569">A118569</option><option value="A118619">A118619</option><option value="A118637">A118637</option><option value="A118780">A118780</option><option value="A119201">A119201</option><option value="A119474">A119474</option><option value="A119836">A119836</option><option value="A120460">A120460</option><option value="A120481">A120481</option><option value="A120617">A120617</option><option value="A121216">A121216</option><option value="A121258">A121258</option><option value="A121308">A121308</option><option value="A121384">A121384</option><option value="A121450">A121450</option><option value="A121538">A121538</option><option value="A121662">A121662</option><option value="A121785">A121785</option><option value="A121986">A121986</option><option value="A125073">A125073</option><option value="A125102">A125102</option><option value="A125116">A125116</option><option value="A125137">A125137</option><option value="A125319">A125319</option><option value="A125485">A125485</option><option value="A125562">A125562</option><option value="A125686">A125686</option><option value="A126080">A126080</option><option value="A126146">A126146</option><option value="A126213">A126213</option><option value="A126318">A126318</option><option value="A126374">A126374</option><option value="A126506">A126506</option><option value="A126590">A126590</option><option value="A127022">A127022</option><option value="A127090">A127090</option><option value="A127102">A127102</option><option value="A127162">A127162</option><option value="A127273">A127273</option><option value="A127526">A127526</option><option value="A127554">A127554</option><option value="A127569">A127569</option><option value="A127594">A127594</option><option value="A127674">A127674</option><option value="A127679">A127679</option><option value="A127835">A127835</option><option value="A128204">A128204</option><option value="A128295">A128295</option><option value="A128517">A128517</option><option value="A128587">A128587</option><option value="A128630">A128630</option><option value="A128682">A128682</option><option value="A128858">A128858</option><option value="A133883">A133883</option><option value="A141396">A141396</option><option value="A144353">A144353</option><option value="A145479">A145479</option><option value="A146052">A146052</option><option value="A146249">A146249</option><option value="A146359">A146359</option><option value="A146509">A146509</option><option value="A146915">A146915</option><option value="A146935">A146935</option><option value="A148005">A148005</option><option value="A148064">A148064</option><option value="A148295">A148295</option><option value="A148431">A148431</option><option value="A148698">A148698</option><option value="A149187">A149187</option><option value="A149466">A149466</option><option value="A150153">A150153</option><option value="A150344">A150344</option><option value="A150359">A150359</option><option value="A150371">A150371</option><option value="A150430">A150430</option><option value="A150451">A150451</option><option value="A150531">A150531</option><option value="A150737">A150737</option><option value="A151066">A151066</option><option value="A151113">A151113</option><option value="A151368">A151368</option><option value="A151380">A151380</option><option value="A151403">A151403</option><option value="A151777">A151777</option><option value="A151852">A151852</option><option value="A151922">A151922</option><option value="A152027">A152027</option><option value="A156620">A156620</option><option value="A158551">A158551</option><option value="A159933">A159933</option><option value="A160149">A160149</option><option value="A164673">A164673</option><option value="A164853">A164853</option><option value="A164856">A164856</option><option value="A164859">A164859</option><option value="A164905">A164905</option><option value="A164962">A164962</option><option value="A164968">A164968</option><option value="A164969">A164969</option><option value="A164986">A164986</option><option value="A164993">A164993</option><option value="A165020">A165020</option><option value="A165030">A165030</option><option value="A165034">A165034</option><option value="A165068">A165068</option><option value="A165072">A165072</option><option value="A165113">A165113</option><option value="A165130">A165130</option><option value="A165131">A165131</option><option value="A165136">A165136</option><option value="A165234">A165234</option><option value="A165279">A165279</option><option value="A165392">A165392</option><option value="A165433">A165433</option><option value="A165551">A165551</option><option value="A165726">A165726</option><option value="A165728">A165728</option><option value="A165870">A165870</option><option value="A166113">A166113</option><option value="A166822">A166822</option><option value="A166842">A166842</option><option value="A166927">A166927</option><option value="A167435">A167435</option><option value="A167443">A167443</option><option value="A167614">A167614</option><option value="A167758">A167758</option><option value="A167863">A167863</option><option value="A167998">A167998</option><option value="A168010">A168010</option><option value="A168013">A168013</option><option value="A168058">A168058</option><option value="A168081">A168081</option><option value="A168096">A168096</option><option value="A168100">A168100</option><option value="A168102">A168102</option><option value="A168204">A168204</option><option value="A168258">A168258</option><option value="A168279">A168279</option><option value="A168317">A168317</option><option value="A168463">A168463</option><option value="A168524">A168524</option><option value="A168555">A168555</option><option value="A168626">A168626</option><option value="A168629">A168629</option><option value="A168849">A168849</option><option value="A168902">A168902</option><option value="A169065">A169065</option><option value="A169122">A169122</option><option value="A169148">A169148</option><option value="A169157">A169157</option><option value="A169186">A169186</option><option value="A169198">A169198</option><option value="A169202">A169202</option><option value="A169204">A169204</option><option value="A169386">A169386</option><option value="A169414">A169414</option><option value="A169417">A169417</option><option value="A169531">A169531</option><option value="A169555">A169555</option><option value="A169581">A169581</option><option value="A169586">A169586</option><option value="A169622">A169622</option><option value="A169655">A169655</option><option value="A169813">A169813</option><option value="A169868">A169868</option><option value="A169884">A169884</option><option value="A170142">A170142</option><option value="A170144">A170144</option><option value="A170207">A170207</option><option value="A170243">A170243</option><option value="A170284">A170284</option><option value="A170335">A170335</option><option value="A170617">A170617</option><option value="A170631">A170631</option><option value="A170678">A170678</option><option value="A170680">A170680</option><option value="A170681">A170681</option><option value="A170690">A170690</option><option value="A170720">A170720</option><option value="A170725">A170725</option><option value="A170771">A170771</option><option value="A170775">A170775</option><option value="A170798">A170798</option><option value="A170813">A170813</option><option value="A170826">A170826</option><option value="A170845">A170845</option><option value="A170851">A170851</option><option value="A170858">A170858</option><option value="A170868">A170868</option><option value="A170909">A170909</option><option value="A170918">A170918</option><option value="A170975">A170975</option><option value="A171031">A171031</option><option value="A171076">A171076</option><option value="A171122">A171122</option><option value="A171141">A171141</option><option value="A171251">A171251</option><option value="A171262">A171262</option><option value="A171284">A171284</option><option value="A171304">A171304</option><option value="A171316">A171316</option><option value="A171499">A171499</option><option value="A171534">A171534</option><option value="A171541">A171541</option><option value="A171661">A171661</option><option value="A171671">A171671</option><option value="A171785">A171785</option><option value="A171885">A171885</option><option value="A171952">A171952</option><option value="A171954">A171954</option><option value="A171955">A171955</option><option value="A171958">A171958</option><option value="A172150">A172150</option><option value="A172165">A172165</option><option value="A172168">A172168</option><option value="A172206">A172206</option><option value="A172342">A172342</option><option value="A172374">A172374</option><option value="A172427">A172427</option><option value="A172625">A172625</option><option value="A172706">A172706</option><option value="A172774">A172774</option><option value="A172775">A172775</option><option value="A172783">A172783</option><option value="A172788">A172788</option><option value="A172833">A172833</option><option value="A172898">A172898</option><option value="A172938">A172938</option><option value="A172978">A172978</option><option value="A172985">A172985</option><option value="A173020">A173020</option><option value="A173051">A173051</option><option value="A173070">A173070</option><option value="A173073">A173073</option><option value="A173166">A173166</option><option value="A173168">A173168</option><option value="A173291">A173291</option><option value="A173408">A173408</option><option value="A173469">A173469</option><option value="A173494">A173494</option><option value="A173520">A173520</option><option value="A173522">A173522</option><option value="A173530">A173530</option><option value="A173595">A173595</option><option value="A173614">A173614</option><option value="A173620">A173620</option><option value="A173628">A173628</option><option value="A173631">A173631</option><option value="A173634">A173634</option><option value="A173655">A173655</option><option value="A173656">A173656</option><option value="A173681">A173681</option><option value="A173696">A173696</option><option value="A173721">A173721</option><option value="A173731">A173731</option><option value="A173743">A173743</option><option value="A173765">A173765</option><option value="A173899">A173899</option><option value="A173910">A173910</option><option value="A173965">A173965</option><option value="A173968">A173968</option><option value="A174007">A174007</option><option value="A174117">A174117</option><option value="A174118">A174118</option><option value="A174208">A174208</option><option value="A174234">A174234</option><option value="A174243">A174243</option><option value="A174361">A174361</option><option value="A174363">A174363</option><option value="A174408">A174408</option><option value="A174470">A174470</option><option value="A174483">A174483</option><option value="A174531">A174531</option><option value="A174566">A174566</option><option value="A174567">A174567</option><option value="A174737">A174737</option><option value="A174802">A174802</option><option value="A174842">A174842</option><option value="A175088">A175088</option><option value="A175091">A175091</option><option value="A175156">A175156</option><option value="A175165">A175165</option><option value="A175272">A175272</option><option value="A175280">A175280</option><option value="A175289">A175289</option><option value="A175386">A175386</option><option value="A175806">A175806</option><option value="A175816">A175816</option><option value="A175908">A175908</option><option value="A175937">A175937</option><option value="A175961">A175961</option><option value="A176039">A176039</option><option value="A176044">A176044</option><option value="A176135">A176135</option><option value="A176186">A176186</option><option value="A176199">A176199</option><option value="A176303">A176303</option><option value="A176450">A176450</option><option value="A176541">A176541</option><option value="A176543">A176543</option><option value="A176598">A176598</option><option value="A176744">A176744</option><option value="A176778">A176778</option><option value="A176788">A176788</option><option value="A176807">A176807</option><option value="A176842">A176842</option><option value="A176887">A176887</option><option value="A176888">A176888</option><option value="A176907">A176907</option><option value="A176925">A176925</option><option value="A176981">A176981</option><option value="A176988">A176988</option><option value="A176991">A176991</option><option value="A177024">A177024</option><option value="A177050">A177050</option><option value="A177055">A177055</option><option value="A177174">A177174</option><option value="A177257">A177257</option><option value="A177270">A177270</option><option value="A177284">A177284</option><option value="A177307">A177307</option><option value="A177309">A177309</option><option value="A177328">A177328</option><option value="A177378">A177378</option><option value="A177450">A177450</option><option value="A177453">A177453</option><option value="A177493">A177493</option><option value="A177497">A177497</option><option value="A177528">A177528</option><option value="A177547">A177547</option><option value="A177605">A177605</option><option value="A177618">A177618</option><option value="A177661">A177661</option><option value="A177815">A177815</option><option value="A177820">A177820</option><option value="A177872">A177872</option><option value="A177890">A177890</option><option value="A177891">A177891</option><option value="A177900">A177900</option><option value="A177907">A177907</option><option value="A177951">A177951</option><option value="A177962">A177962</option><option value="A177966">A177966</option><option value="A178023">A178023</option><option value="A178032">A178032</option><option value="A178059">A178059</option><option value="A178073">A178073</option><option value="A178095">A178095</option><option value="A178111">A178111</option><option value="A178184">A178184</option><option value="A178191">A178191</option><option value="A178213">A178213</option><option value="A178297">A178297</option><option value="A178300">A178300</option><option value="A178301">A178301</option><option value="A178408">A178408</option><option value="A178432">A178432</option><option value="A178532">A178532</option><option value="A178539">A178539</option><option value="A178587">A178587</option><option value="A178712">A178712</option><option value="A178799">A178799</option><option value="A178813">A178813</option><option value="A178862">A178862</option><option value="A178864">A178864</option><option value="A178876">A178876</option><option value="A178886">A178886</option><option value="A178893">A178893</option><option value="A178968">A178968</option><option value="A178982">A178982</option><option value="A179004">A179004</option><option value="A179022">A179022</option><option value="A179031">A179031</option><option value="A179041">A179041</option><option value="A179049">A179049</option><option value="A179080">A179080</option><option value="A179117">A179117</option><option value="A179125">A179125</option><option value="A179202">A179202</option><option value="A179206">A179206</option><option value="A179226">A179226</option><option value="A179232">A179232</option><option value="A179289">A179289</option><option value="A179291">A179291</option><option value="A179300">A179300</option><option value="A179301">A179301</option><option value="A179312">A179312</option><option value="A179318">A179318</option><option value="A179325">A179325</option><option value="A179452">A179452</option><option value="A179457">A179457</option><option value="A180698">A180698</option><option value="A180998">A180998</option><option value="A181023">A181023</option><option value="A181154">A181154</option><option value="A181184">A181184</option><option value="A181265">A181265</option><option value="A181407">A181407</option><option value="A181415">A181415</option><option value="A181825">A181825</option><option value="A182443">A182443</option><option value="A182466">A182466</option><option value="A182521">A182521</option><option value="A182600">A182600</option><option value="A182601">A182601</option><option value="A182688">A182688</option><option value="A182808">A182808</option><option value="A183016">A183016</option><option value="A183026">A183026</option><option value="A183096">A183096</option><option value="A183193">A183193</option><option value="A183256">A183256</option><option value="A183733">A183733</option><option value="A183758">A183758</option><option value="A184263">A184263</option><option value="A184282">A184282</option><option value="A184285">A184285</option><option value="A184301">A184301</option><option value="A184469">A184469</option><option value="A184588">A184588</option><option value="A185001">A185001</option><option value="A185005">A185005</option><option value="A185006">A185006</option><option value="A185052">A185052</option><option value="A185160">A185160</option><option value="A185164">A185164</option><option value="A185200">A185200</option><option value="A185215">A185215</option><option value="A185392">A185392</option><option value="A185510">A185510</option><option value="A185599">A185599</option><option value="A186031">A186031</option><option value="A186058">A186058</option><option value="A186506">A186506</option><option value="A186727">A186727</option><option value="A186986">A186986</option><option value="A187164">A187164</option><option value="A187826">A187826</option><option value="A187932">A187932</option><option value="A187935">A187935</option><option value="A187979">A187979</option><option value="A188072">A188072</option><option value="A188076">A188076</option><option value="A188152">A188152</option><option value="A188169">A188169</option><option value="A188355">A188355</option><option value="A188434">A188434</option><option value="A188513">A188513</option><option value="A188608">A188608</option><option value="A188688">A188688</option><option value="A188775">A188775</option><option value="A188801">A188801</option><option value="A188937">A188937</option><option value="A189080">A189080</option><option value="A189240">A189240</option><option value="A189431">A189431</option><option value="A189555">A189555</option><option value="A189734">A189734</option><option value="A189856">A189856</option><option value="A189910">A189910</option><option value="A189994">A189994</option><option value="A190018">A190018</option><option value="A190020">A190020</option><option value="A190282">A190282</option><option value="A190377">A190377</option><option value="A190396">A190396</option><option value="A190517">A190517</option><option value="A190545">A190545</option><option value="A190634">A190634</option><option value="A190647">A190647</option><option value="A190700">A190700</option><option value="A190857">A190857</option><option value="A191679">A191679</option><option value="A191863">A191863</option><option value="A191964">A191964</option><option value="A192333">A192333</option><option value="A192381">A192381</option><option value="A192386">A192386</option><option value="A193132">A193132</option><option value="A193276">A193276</option><option value="A193292">A193292</option><option value="A193339">A193339</option><option value="A193412">A193412</option><option value="A193416">A193416</option><option value="A193474">A193474</option><option value="A193614">A193614</option><option value="A193616">A193616</option><option value="A193731">A193731</option><option value="A193734">A193734</option><option value="A193826">A193826</option><option value="A193870">A193870</option><option value="A193980">A193980</option><option value="A194046">A194046</option><option value="A194067">A194067</option><option value="A194078">A194078</option><option value="A194166">A194166</option><option value="A194507">A194507</option><option value="A194525">A194525</option><option value="A194563">A194563</option><option value="A194612">A194612</option><option value="A194748">A194748</option><option value="A194829">A194829</option><option value="A194830">A194830</option><option value="A194937">A194937</option><option value="A194939">A194939</option><option value="A194974">A194974</option><option value="A195234">A195234</option><option value="A195312">A195312</option><option value="A195348">A195348</option><option value="A195361">A195361</option><option value="A195368">A195368</option><option value="A195379">A195379</option><option value="A195762">A195762</option><option value="A195808">A195808</option><option value="A195813">A195813</option><option value="A195963">A195963</option><option value="A196413">A196413</option><option value="A197237">A197237</option><option value="A197503">A197503</option><option value="A197544">A197544</option><option value="A197712">A197712</option><option value="A197870">A197870</option><option value="A198120">A198120</option><option value="A198208">A198208</option><option value="A198373">A198373</option><option value="A198852">A198852</option><option value="A198909">A198909</option><option value="A199002">A199002</option><option value="A199484">A199484</option><option value="A199546">A199546</option><option value="A199591">A199591</option><option value="A199772">A199772</option><option value="A200098">A200098</option><option value="A200122">A200122</option><option value="A200296">A200296</option><option value="A200339">A200339</option><option value="A200524">A200524</option><option value="A200844">A200844</option><option value="A201034">A201034</option><option value="A201060">A201060</option><option value="A201318">A201318</option><option value="A201577">A201577</option><option value="A201819">A201819</option><option value="A201846">A201846</option><option value="A202199">A202199</option><option value="A202359">A202359</option><option value="A202410">A202410</option><option value="A202471">A202471</option><option value="A202860">A202860</option><option value="A203088">A203088</option><option value="A203131">A203131</option><option value="A203198">A203198</option><option value="A203338">A203338</option><option value="A203548">A203548</option><option value="A203681">A203681</option><option value="A203753">A203753</option><option value="A203959">A203959</option><option value="A204081">A204081</option><option value="A204273">A204273</option><option value="A205090">A205090</option><option value="A205250">A205250</option><option value="A205474">A205474</option><option value="A206004">A206004</option><option value="A206253">A206253</option><option value="A206643">A206643</option><option value="A206744">A206744</option><option value="A206914">A206914</option><option value="A206941">A206941</option><option value="A207008">A207008</option><option value="A207106">A207106</option><option value="A207108">A207108</option><option value="A207126">A207126</option><option value="A207164">A207164</option><option value="A207774">A207774</option><option value="A207806">A207806</option><option value="A207833">A207833</option><option value="A207844">A207844</option><option value="A208003">A208003</option><option value="A208877">A208877</option><option value="A209623">A209623</option><option value="A209755">A209755</option><option value="A209759">A209759</option><option value="A209765">A209765</option><option value="A209808">A209808</option><option value="A210243">A210243</option><option value="A210244">A210244</option><option value="A210321">A210321</option><option value="A211069">A211069</option><option value="A211079">A211079</option><option value="A211221">A211221</option><option value="A211395">A211395</option><option value="A211503">A211503</option><option value="A211622">A211622</option><option value="A211628">A211628</option><option value="A211631">A211631</option><option value="A211682">A211682</option><option value="A211684">A211684</option><option value="A211695">A211695</option><option value="A212217">A212217</option><option value="A212229">A212229</option><option value="A212279">A212279</option><option value="A212343">A212343</option><option value="A212359">A212359</option><option value="A212514">A212514</option><option value="A212532">A212532</option><option value="A212881">A212881</option><option value="A212885">A212885</option><option value="A213439">A213439</option><option value="A214059">A214059</option><option value="A214431">A214431</option><option value="A214764">A214764</option><option value="A215127">A215127</option><option value="A215501">A215501</option><option value="A215634">A215634</option><option value="A215639">A215639</option><option value="A215691">A215691</option><option value="A215709">A215709</option><option value="A215882">A215882</option><option value="A216345">A216345</option><option value="A216423">A216423</option><option value="A216529">A216529</option><option value="A216694">A216694</option><option value="A217627">A217627</option><option value="A218255">A218255</option><option value="A218353">A218353</option><option value="A218708">A218708</option><option value="A218991">A218991</option><option value="A219797">A219797</option><option value="A221423">A221423</option><option value="A221921">A221921</option><option value="A222524">A222524</option><option value="A222787">A222787</option><option value="A222794">A222794</option><option value="A222874">A222874</option><option value="A223062">A223062</option><option value="A223107">A223107</option><option value="A223747">A223747</option><option value="A223848">A223848</option><option value="A224566">A224566</option><option value="A225047">A225047</option><option value="A225158">A225158</option><option value="A225272">A225272</option><option value="A226020">A226020</option><option value="A226063">A226063</option><option value="A226119">A226119</option><option value="A226148">A226148</option><option value="A226462">A226462</option><option value="A226518">A226518</option><option value="A226801">A226801</option><option value="A227081">A227081</option><option value="A227888">A227888</option><option value="A228459">A228459</option><option value="A229129">A229129</option><option value="A229172">A229172</option><option value="A229391">A229391</option><option value="A229854">A229854</option><option value="A229898">A229898</option><option value="A230526">A230526</option><option value="A230555">A230555</option><option value="A230872">A230872</option><option value="A230976">A230976</option><option value="A231044">A231044</option><option value="A231466">A231466</option><option value="A231637">A231637</option><option value="A231649">A231649</option><option value="A231951">A231951</option><option value="A234068">A234068</option><option value="A234346">A234346</option><option value="A234464">A234464</option><option value="A235058">A235058</option><option value="A235108">A235108</option><option value="A235404">A235404</option><option value="A235406">A235406</option><option value="A236036">A236036</option><option value="A236066">A236066</option><option value="A236194">A236194</option><option value="A236728">A236728</option><option value="A237521">A237521</option><option value="A238440">A238440</option><option value="A238468">A238468</option><option value="A238842">A238842</option><option value="A238863">A238863</option><option value="A239341">A239341</option><option value="A240236">A240236</option><option value="A241138">A241138</option><option value="A241141">A241141</option><option value="A241144">A241144</option><option value="A241987">A241987</option><option value="A242042">A242042</option><option value="A242123">A242123</option><option value="A242290">A242290</option><option value="A243454">A243454</option><option value="A243872">A243872</option><option value="A243979">A243979</option><option value="A244285">A244285</option><option value="A244382">A244382</option><option value="A244422">A244422</option><option value="A244678">A244678</option><option value="A244985">A244985</option><option value="A245241">A245241</option><option value="A245339">A245339</option><option value="A245599">A245599</option><option value="A245918">A245918</option><option value="A246590">A246590</option><option value="A246600">A246600</option><option value="A246649">A246649</option><option value="A246658">A246658</option><option value="A246705">A246705</option><option value="A246963">A246963</option><option value="A246985">A246985</option><option value="A247258">A247258</option><option value="A247262">A247262</option><option value="A247648">A247648</option><option value="A247649">A247649</option><option value="A247697">A247697</option><option value="A247970">A247970</option><option value="A248182">A248182</option><option value="A248299">A248299</option><option value="A248410">A248410</option><option value="A248499">A248499</option><option value="A248574">A248574</option><option value="A248680">A248680</option><option value="A248768">A248768</option><option value="A249130">A249130</option><option value="A249145">A249145</option><option value="A249370">A249370</option><option value="A249498">A249498</option><option value="A249767">A249767</option><option value="A249975">A249975</option><option value="A250115">A250115</option><option value="A250195">A250195</option><option value="A250285">A250285</option><option value="A250959">A250959</option><option value="A251392">A251392</option><option value="A251452">A251452</option><option value="A251457">A251457</option><option value="A251523">A251523</option><option value="A251541">A251541</option><option value="A252040">A252040</option><option value="A254486">A254486</option><option value="A254798">A254798</option><option value="A255044">A255044</option><option value="A255262">A255262</option><option value="A255271">A255271</option><option value="A255596">A255596</option><option value="A256543">A256543</option><option value="A256571">A256571</option><option value="A256968">A256968</option><option value="A257109">A257109</option><option value="A257295">A257295</option><option value="A257878">A257878</option><option value="A257995">A257995</option><option value="A258574">A258574</option><option value="A259150">A259150</option><option value="A259156">A259156</option><option value="A259188">A259188</option><option value="A259661">A259661</option><option value="A260142">A260142</option><option value="A260868">A260868</option><option value="A260875">A260875</option><option value="A261179">A261179</option><option value="A261307">A261307</option><option value="A261383">A261383</option><option value="A261421">A261421</option><option value="A261559">A261559</option><option value="A261729">A261729</option><option value="A261768">A261768</option><option value="A262602">A262602</option><option value="A262608">A262608</option><option value="A263355">A263355</option><option value="A263771">A263771</option><option value="A264108">A264108</option><option value="A265171">A265171</option><option value="A266271">A266271</option><option value="A266362">A266362</option><option value="A266430">A266430</option><option value="A266549">A266549</option><option value="A266608">A266608</option><option value="A266612">A266612</option><option value="A266628">A266628</option><option value="A266706">A266706</option><option value="A266719">A266719</option><option value="A266734">A266734</option><option value="A266748">A266748</option><option value="A266750">A266750</option><option value="A266751">A266751</option><option value="A266769">A266769</option><option value="A266842">A266842</option><option value="A266851">A266851</option><option value="A266858">A266858</option><option value="A266986">A266986</option><option value="A267507">A267507</option><option value="A267543">A267543</option><option value="A268179">A268179</option><option value="A268269">A268269</option><option value="A268277">A268277</option><option value="A268287">A268287</option><option value="A268384">A268384</option><option value="A268488">A268488</option><option value="A268667">A268667</option><option value="A268733">A268733</option><option value="A268812">A268812</option><option value="A268837">A268837</option><option value="A269159">A269159</option><option value="A270762">A270762</option><option value="A270778">A270778</option><option value="A270891">A270891</option><option value="A270955">A270955</option><option value="A271144">A271144</option><option value="A271146">A271146</option><option value="A271177">A271177</option><option value="A271337">A271337</option><option value="A271389">A271389</option><option value="A271410">A271410</option><option value="A271569">A271569</option><option value="A271880">A271880</option><option value="A271882">A271882</option><option value="A272041">A272041</option><option value="A272126">A272126</option><option value="A272127">A272127</option><option value="A272191">A272191</option><option value="A272579">A272579</option><option value="A272656">A272656</option><option value="A272815">A272815</option><option value="A273176">A273176</option><option value="A274042">A274042</option><option value="A274758">A274758</option><option value="A274929">A274929</option><option value="A275059">A275059</option><option value="A275301">A275301</option><option value="A275482">A275482</option><option value="A275605">A275605</option><option value="A275900">A275900</option><option value="A275901">A275901</option><option value="A276507">A276507</option><option value="A276511">A276511</option><option value="A276813">A276813</option><option value="A277599">A277599</option><option value="A277868">A277868</option><option value="A278634">A278634</option><option value="A278637">A278637</option><option value="A278638">A278638</option><option value="A278774">A278774</option><option value="A278962">A278962</option><option value="A279071">A279071</option><option value="A279203">A279203</option><option value="A279398">A279398</option><option value="A279490">A279490</option><option value="A279716">A279716</option><option value="A279733">A279733</option><option value="A279738">A279738</option><option value="A279902">A279902</option><option value="A279908">A279908</option><option value="A279964">A279964</option><option value="A279984">A279984</option><option value="A280847">A280847</option><option value="A280854">A280854</option><option value="A281013">A281013</option><option value="A281105">A281105</option><option value="A281112">A281112</option><option value="A281117">A281117</option><option value="A281193">A281193</option><option value="A281220">A281220</option><option value="A281699">A281699</option><option value="A281702">A281702</option><option value="A281721">A281721</option><option value="A281938">A281938</option><option value="A282393">A282393</option><option value="A283068">A283068</option><option value="A283119">A283119</option><option value="A283264">A283264</option><option value="A283622">A283622</option><option value="A283676">A283676</option><option value="A283745">A283745</option><option value="A283846">A283846</option><option value="A283888">A283888</option><option value="A284217">A284217</option><option value="A285259">A285259</option><option value="A285271">A285271</option><option value="A285787">A285787</option><option value="A286083">A286083</option><option value="A286094">A286094</option><option value="A286598">A286598</option><option value="A287040">A287040</option><option value="A287042">A287042</option><option value="A287393">A287393</option><option value="A287757">A287757</option><option value="A287900">A287900</option><option value="A288055">A288055</option><option value="A288335">A288335</option><option value="A288445">A288445</option><option value="A288720">A288720</option><option value="A289199">A289199</option><option value="A290115">A290115</option><option value="A291367">A291367</option><option value="A291376">A291376</option><option value="A291454">A291454</option><option value="A291804">A291804</option><option value="A292291">A292291</option><option value="A292313">A292313</option><option value="A292619">A292619</option><option value="A292639">A292639</option><option value="A292843">A292843</option><option value="A293090">A293090</option><option value="A293359">A293359</option><option value="A294314">A294314</option><option value="A294683">A294683</option><option value="A294714">A294714</option><option value="A294832">A294832</option><option value="A294934">A294934</option><option value="A294965">A294965</option><option value="A295529">A295529</option><option value="A295552">A295552</option><option value="A296110">A296110</option><option value="A296273">A296273</option><option value="A297356">A297356</option><option value="A297425">A297425</option><option value="A297757">A297757</option><option value="A297911">A297911</option><option value="A297997">A297997</option><option value="A298113">A298113</option><option value="A298161">A298161</option><option value="A298170">A298170</option><option value="A298338">A298338</option><option value="A299730">A299730</option><option value="A300414">A300414</option><option value="A300611">A300611</option><option value="A300957">A300957</option><option value="A301053">A301053</option><option value="A301081">A301081</option><option value="A301716">A301716</option><option value="A302213">A302213</option><option value="A303189">A303189</option><option value="A303190">A303190</option><option value="A303649">A303649</option><option value="A304072">A304072</option><option value="A305929">A305929</option><option value="A305949">A305949</option><option value="A307231">A307231</option><option value="A307240">A307240</option><option value="A307869">A307869</option><option value="A308470">A308470</option><option value="A308591">A308591</option><option value="A308878">A308878</option><option value="A309169">A309169</option><option value="A311911">A311911</option><option value="A312069">A312069</option><option value="A312526">A312526</option><option value="A313309">A313309</option><option value="A313515">A313515</option><option value="A314654">A314654</option><option value="A317010">A317010</option><option value="A317085">A317085</option><option value="A317837">A317837</option><option value="A317839">A317839</option><option value="A319140">A319140</option><option value="A319230">A319230</option><option value="A319353">A319353</option><option value="A319550">A319550</option><option value="A320300">A320300</option><option value="A320715">A320715</option><option value="A321489">A321489</option><option value="A322054">A322054</option><option value="A322195">A322195</option><option value="A322971">A322971</option><option value="A323157">A323157</option><option value="A323638">A323638</option><option value="A324368">A324368</option><option value="A324891">A324891</option><option value="A326133">A326133</option><option value="A327330">A327330</option><option value="A328230">A328230</option><option value="A328398">A328398</option><option value="A328555">A328555</option><option value="A329329">A329329</option><option value="A329769">A329769</option><option value="A331650">A331650</option><option value="A332431">A332431</option><option value="A332509">A332509</option><option value="A332517">A332517</option><option value="A333342">A333342</option><option value="A334302">A334302</option><option value="A334569">A334569</option><option value="A334676">A334676</option><option value="A334683">A334683</option><option value="A334869">A334869</option><option value="A335056">A335056</option><option value="A335569">A335569</option><option value="A335570">A335570</option><option value="A336261">A336261</option><option value="A336517">A336517</option><option value="A336753">A336753</option><option value="A337469">A337469</option><option value="A337989">A337989</option><option value="A338414">A338414</option><option value="A338491">A338491</option><option value="A339692">A339692</option><option value="A340050">A340050</option><option value="A340351">A340351</option><option value="A341739">A341739</option><option value="A343949">A343949</option><option value="A344179">A344179</option><option value="A344278">A344278</option><option value="A344289">A344289</option><option value="A345189">A345189</option><option value="A345354">A345354</option><option value="A345543">A345543</option><option value="A345773">A345773</option><option value="A346653">A346653</option><option value="A347410">A347410</option><option value="A347429">A347429</option><option value="A347673">A347673</option><option value="A347851">A347851</option><option value="A348091">A348091</option><option value="A348572">A348572</option><option value="A348850">A348850</option><option value="A349698">A349698</option><option value="A349954">A349954</option><option value="A352589">A352589</option><option value="A352951">A352951</option><option value="A352990">A352990</option><option value="A353857">A353857</option><option value="A354100">A354100</option><option value="A355914">A355914</option><option value="A356006">A356006</option><option value="A357030">A357030</option><option value="A357295">A357295</option><option value="A358270">A358270</option><option value="A358351">A358351</option><option value="A359351">A359351</option><option value="A359870">A359870</option><option value="A359871">A359871</option><option value="A359931">A359931</option><option value="A360651">A360651</option><option value="A361895">A361895</option><option value="A362279">A362279</option><option value="A362970">A362970</option><option value="A364536">A364536</option><option value="A365473">A365473</option><option value="A367831">A367831</option><option value="A369164">A369164</option><option value="A369190">A369190</option><option value="A369203">A369203</option><option value="A369205">A369205</option><option value="A369298">A369298</option><option value="A369524">A369524</option><option value="A369552">A369552</option><option value="A369571">A369571</option><option value="A369592">A369592</option><option value="A370206">A370206</option><option value="A370208">A370208</option><option value="A370723">A370723</option><option value="A370726">A370726</option><option value="A370849">A370849</option><option value="A371232">A371232</option><option value="A371236">A371236</option><option value="A371290">A371290</option><option value="A371605">A371605</option><option value="A371606">A371606</option><option value="A371608">A371608</option><option value="A371669">A371669</option><option value="A371856">A371856</option><option value="A372424">A372424</option><option value="A372585">A372585</option><option value="A372686">A372686</option><option value="A372994">A372994</option><option value="A373371">A373371</option><option value="A373377">A373377</option><option value="A373762">A373762</option><option value="A374130">A374130</option><option value="A374132">A374132</option><option value="A375734">A375734</option><option value="A376385">A376385</option><option value="A376736">A376736</option><option value="A376968">A376968</option><option value="A377340">A377340</option><option value="A378454">A378454</option><option value="A378496">A378496</option><option value="A379090">A379090</option><option value="A379459">A379459</option><option value="A379544">A379544</option><option value="A380790">A380790</option><option value="A381038">A381038</option><option value="A381095">A381095</option><option value="A381387">A381387</option><option value="A381628">A381628</option><option value="A381632">A381632</option><option value="A381929">A381929</option><option value="A382648">A382648</option><option value="A382984">A382984</option><option value="A383594">A383594</option><option value="A383786">A383786</option><option value="A384223">A384223</option><option value="A384229">A384229</option><option value="A384243">A384243</option><option value="A386430">A386430</option><option value="A386606">A386606</option><option value="A387667">A387667</option><option value="A389485">A389485</option><option value="A391063">A391063</option><option value="A392024">A392024</option><option value="A392168">A392168</option><option value="A392549">A392549</option><option value="A392644">A392644</option><option value="A392650">A392650</option><option value="A392652">A392652</option><option value="A393064">A393064</option><option value="A393525">A393525</option><option value="A393847">A393847</option><option value="A394205">A394205</option><option value="A394905">A394905</option><option value="A395072">A395072</option><option value="A395442">A395442</option><option value="A395456">A395456</option><option value="A395577">A395577</option><option value="A395645">A395645</option><option value="A395747">A395747</option><option value="A395785">A395785</option><option value="A395944">A395944</option><option value="A396215">A396215</option><option value="A396427">A396427</option><option value="A396444">A396444</option><option value="A396631">A396631</option><option value="A396938">A396938</option><option value="A397125">A397125</option><option value="A397243">A397243</option><option value="A397525">A397525</option><option value="A397623">A397623</option><option value="A397828">A397828</option><option value="A397911">A397911</option><option value="A398254">A398254</option><option value="A398532">A398532</option><option value="A398918">A398918</option><option value="A398925">A398925</option><option value="A398948">A398948</option><option value="A399050">A399050</option><option value="A399068">A399068</option><option value="A399103">A399103</option><option value="A399617">A399617</option><option value="A400086">A400086</option><option value="A400787">A400787</option><option value="A401106">A401106</option><option value="A401687">A401687</option><option value="A402732">A402732</option><option value="A402738">A402738</option><option value="A403005">A403005</option><option value="A403030">A403030</option><option value="A403068">A403068</option><option value="A403599">A403599</option><option value="A404388">A404388</option><option value="A404475">A404475</option><option value="A404676">A404676</option><option value="A405309">A405309</option><option value="A405471">A405471</option><option value="A406302">A406302</option><option value="A406389">A406389</option><option value="A406628">A406628</option><option value="A407114">A407114</option><option value="A407861">A407861</option><option value="A408538">A408538</option><option value="A408697">A408697</option><option value="A408998">A408998</option><option value="A409718">A409718</option><option value="A410015">A410015</option><option value="A410043">A410043</option><option value="A410956">A410956</option><option value="A411676">A411676</option><option value="A411876">A411876</option><option value="A411937">A411937</option><option value="A412138">A412138</option><option value="A412336">A412336</option><option value="A413080">A413080</option><option value="A413188">A413188</option><option value="A413437">A413437</option><option value="A413535">A413535</option><option value="A413776">A413776</option><option value="A415529">A415529</option><option value="A415799">A415799</option><option value="A415820">A415820</option><option value="A415968">A415968</option><option value="A416299">A416299</option><option value="A416300">A416300</option><option value="A416364">A416364</option><option value="A416705">A416705</option><option value="A417219">A417219</option><option value="A418903">A418903</option><option value="A419197">A419197</option><option value="A419532">A419532</option><option value="A419619">A419619</option><option value="A421366">A421366</option><option value="A421440">A421440</option><option value="A421475">A421475</option><option value="A421479">A421479</option><option value="A421826">A421826</option><option value="A421919">A421919</option><option value="A422946">A422946</option><option value="A423199">A423199</option><option value="A423610">A423610</option><option value="A425088">A425088</option><option value="A425739">A425739</option><option value="A427078">A427078</option><option value="A427362">A427362</option><option value="A427372">A427372</option><option value="A428278">A428278</option><option value="A428280">A428280</option><option value="A428289">A428289</option><option value="A428586">A428586</option><option value="A428739">A428739</option><option value="A429181">A429181</option><option value="A429640">A429640</option><option value="A429660">A429660</option><option value="A429790">A429790</option><option value="A430348">A430348</option><option value="A430531">A430531</option><option value="A431400">A431400</option><option value="A431607">A431607</option><option value="A431981">A431981</option><option value="A432310">A432310</option><option value="A432684">A432684</option><option value="A433864">A433864</option><option value="A434550">A434550</option><option value="A435901">A435901</option><option value="A435903">A435903</option><option value="A435917">A435917</option><option value="A435986">A435986</option><option value="A436162">A436162</option><option value="A437300">A437300</option><option value="A437643">A437643</option><option value="A437759">A437759</option><option value="A442462">A442462</option><option value="A443299">A443299</option><option value="A443819">A443819</option><option value="A444300">A444300</option><option value="A444840">A444840</option><option value="A445460">A445460</option><option value="A445463">A445463</option><option value="A446565">A446565</option><option value="A447480">A447480</option><option value="A447860">A447860</option><option value="A447980">A447980</option><option value="A449060">A449060</option><option value="A449325">A449325</option><option value="A450557">A450557</option><option value="A451020">A451020</option><option value="A451361">A451361</option><option value="A452004">A452004</option><option value="A452599">A452599</option><option value="A452938">A452938</option><option value="A454103">A454103</option><option value="A454781">A454781</option><option value="A455602">A455602</option><option value="A456265">A456265</option><option value="A457081">A457081</option><option value="A457523">A457523</option><option value="A457725">A457725</option><option value="A457728">A457728</option><option value="A458360">A458360</option><option value="A458762">A458762</option><option value="A458995">A458995</option><option value="A459757">A459757</option><option value="A461202">A461202</option><option value="A462307">A462307</option><option value="A463487">A463487</option><option value="A464201">A464201</option><option value="A464285">A464285</option><option value="A464286">A464286</option><option value="A464496">A464496</option><option value="A464852">A464852</option><option value="A466927">A466927</option><option value="A467741">A467741</option><option value="A468042">A468042</option><option value="A468061">A468061</option><option value="A468402">A468402</option><option value="A470245">A470245</option><option value="A470434">A470434</option><option value="A470987">A470987</option><option value="A471569">A471569</option><option value="A472066">A472066</option><option value="A473068">A473068</option><option value="A473268">A473268</option><option value="A474326">A474326</option><option value="A475587">A475587</option><option value="A475590">A475590</option><option value="A475626">A475626</option><option value="A476669">A476669</option><option value="A477686">A477686</option><option value="A478426">A478426</option><option value="A478491">A478491</option><option value="A479526">A479526</option><option value="A481054">A481054</option><option value="A481513">A481513</option><option value="A484208">A484208</option><option value="A484396">A484396</option><option value="A484644">A484644</option><option value="A485490">A485490</option><option value="A485492">A485492</option><option value="A486811">A486811</option><option value="A486813">A486813</option><option value="A488258">A488258</option><option value="A490891">A490891</option><option value="A490932">A490932</option><option value="A491210">A491210</option><option value="A492755">A492755</option><option value="A493054">A493054</option><option value="A494473">A494473</option><option value="A495216">A495216</option><option value="A495358">A495358</option><option value="A495950">A495950</option><option value="A496191">A496191</option><option value="A496396">A496396</option><option value="A496910">A496910</option><option value="A497675">A497675</option><option value="A498393">A498393</option><option value="A498703">A498703</option><option value="A498791">A498791</option><option value="A499131">A499131</option><option value="A499212">A499212</option><option value="A499632">A499632</option><option value="A499670">A499670</option><option value="A499733">A499733</option><option value="A499738">A499738</option><option value="A500110">A500110</option><option value="A500573">A500573</option><option value="A500617">A500617</option><option value="A501814">A501814</option><option value="A502638">A502638</option><option value="A506172">A506172</option><option value="A506215">A506215</option><option value="A506451">A506451</option><option value="A506580">A506580</option><option value="A506581">A506581</option><option value="A506692">A506692</option><option value="A507338">A507338</option><option value="A507550">A507550</option><option value="A508054">A508054</option><option value="A509413">A509413</option><option value="A513317">A513317</option><option value="A514312">A514312</option><option value="A514590">A514590</option><option value="A515470">A515470</option><option value="A519150">A519150</option><option value="A519391">A519391</option><option value="A519878">A519878</option><option value="A522252">A522252</option><option value="A523232">A523232</option><option value="A523330">A523330</option><option value="A526811">A526811</option><option value="A527233">A527233</option><option value="A527496">A527496</option><option value="A528234">A528234</option><option value="A531700">A531700</option><option value="A533474">A533474</option><option value="A534893">A534893</option><option value="A534974">A534974</option><option value="A535974">A535974</option><option value="A537593">A537593</option><option value="A541914">A541914</option><option value="A547116">A547116</option><option value="A547624">A547624</option><option value="A549636">A549636</option><option value="A550614">A550614</option><option value="A552484">A552484</option><option value="A553417">A553417</option><option value="A553699">A553699</option><option value="A556077">A556077</option><option value="A556175">A556175</option><option value="A557458">A557458</option><option value="A559322">A559322</option><option value="A559405">A559405</option><option value="A560156">A560156</option><option value="A560502">A560502</option><option value="A560508">A560508</option><option value="A560510">A560510</option><option value="A563915">A563915</option><option value="A565184">A565184</option><option value="A565358">A565358</option><option value="A565491">A565491</option><option value="A565526">A565526</option><option value="A565592">A565592</option><option value="A565593">A565593</option><option value="A565646">A565646</option><option value="A565987">A565987</option><option value="A566368">A566368</option><option value="A566802">A566802</option><option value="A566877">A566877</option><option value="A567015">A567015</option><option value="A567444">A567444</option><option value="A567469">A567469</option><option value="A567525">A567525</option><option value="A567731">A567731</option><option value="A567980">A567980</option><option value="A568200">A568200</option><option value="A568410">A568410</option><option value="A568693">A568693</option><option value="A569069">A569069</option><option value="A569643">A569643</option><option value="A569854">A569854</option><option value="A570500">A570500</option><option value="A571024">A571024</option><option value="A571032">A571032</option><option value="A571033">A571033</option><option value="A571037">A571037</option><option value="A571241">A571241</option><option value="A571303">A571303</option><option value="A571510">A571510</option><option value="A571723">A571723</option><option value="A572193">A572193</option><option value="A572232">A572232</option><option value="A572296">A572296</option><option value="A572298">A572298</option><option value="A572352">A572352</option><option value="A572494">A572494</option><option value="A574446">A574446</option><option value="A574496">A574496</option><option value="A574788">A574788</option><option value="A575149">A575149</option><option value="A575291">A575291</option><option value="A575723">A575723</option><option value="A577660">A577660</option><option value="A577904">A577904</option><option value="A578093">A578093</option><option value="A578665">A578665</option><option value="A578920">A578920</option><option value="A579093">A579093</option><option value="A579545">A579545</option><option value="A580000">A580000</option><option value="A580185">A580185</option><option value="A580840">A580840</option><option value="A581118">A581118</option><option value="A581145">A581145</option><option value="A581479">A581479</option><option value="A581842">A581842</option><option value="A582130">A582130</option><option value="A584541">A584541</option><option value="A585061">A585061</option><option value="A585419">A585419</option><option value="A585515">A585515</option><option value="A585614">A585614</option><option value="A585706">A585706</option><option value="A585844">A585844</option><option value="A586465">A586465</option><option value="A586927">A586927</option><option value="A586964">A586964</option><option value="A587380">A587380</option><option value="A587475">A587475</option><option value="A587519">A587519</option><option value="A588037">A588037</option><option value="A588787">A588787</option><option value="A589428">A589428</option><option value="A589576">A589576</option><option value="A589724">A589724</option><option value="A589745">A589745</option><option value="A590513">A590513</option><option value="A590654">A590654</option><option value="A590987">A590987</option><option value="A591593">A591593</option><option value="A591638">A591638</option><option value="A591722">A591722</option><option value="A592184">A592184</option><option value="A592538">A592538</option><option value="A592850">A592850</option><option value="A593333">A593333</option><option value="A594595">A594595</option><option value="A595399">A595399</option><option value="A595579">A595579</option><option value="A595581">A595581</option><option value="A595582">A595582</option><option value="A596437">A596437</option><option value="A596601">A596601</option><option value="A597474">A597474</option><option value="A597887">A597887</option><option value="A598150">A598150</option><option value="A598582">A598582</option><option value="A599258">A599258</option><option value="A599688">A599688</option><option value="A600126">A600126</option><option value="A600145">A600145</option><option value="A600314">A600314</option><option value="A600806">A600806</option><option value="A601489">A601489</option><option value="A602480">A602480</option><option value="A602481">A602481</option><option value="A602484">A602484</option><option value="A602485">A602485</option><option value="A603422">A603422</option><option value="A603866">A603866</option><option value="A604196">A604196</option><option value="A604248">A604248</option><option value="A604536">A604536</option><option value="A604826">A604826</option><option value="A604851">A604851</option><option value="A607289">A607289</option><option value="A607560">A607560</option><option value="A608108">A608108</option><option value="A609356">A609356</option><option value="AR07492">AR07492</option><option value="AR07535">AR07535</option><option value="AR07577">AR07577</option><option value="AR07605">AR07605</option><option value="AR07638">AR07638</option><option value="AR07702">AR07702</option><option value="AR07745">AR07745</option><option value="AR07792">AR07792</option><option value="AR07849">AR07849</option><option value="AR07877">AR07877</option><option value="AR07985">AR07985</option><option value="AR08012">AR08012</option>
+		</select>
+	</label>
+
+
+	<label><span>&nbsp;</span><input type="submit" value="Analyser" /><input type="reset" value="Réinitialiser" /></label>
+	</form>
+	</div>
+	</div>
+	
+	
+	</div>
+
+
+	<div id="third">
+        <div align="center"><p>Site : TRI</p><p>Date début : 2017-06-13</p><p>Heure début : 10:00</p><p>Date fin : 2017-06-16</p><p>Heure fin : 16:00</p><p>Période : 15</p><p>TYPE_MOUVEMENT : EMPCLI</p></div>
+        <div align="center", width="1000", height="700">
+<script type="text/javascript">
+    (function() {
+  var fn = function() {
+    Bokeh.safely(function() {
+      var docs_json = {"acef40a9-2130-494b-bcce-533bfefc6257":{"roots":{"references":[{"attributes":{"axis_label":"NbOutils","formatter":{"id":"15027a71-6ec3-4912-bc11-8acf3ead6912","type":"BasicTickFormatter"},"plot":{"id":"745a069b-c91c-4640-877e-770a957fc192","subtype":"Figure","type":"Plot"},"ticker":{"id":"aaaeac49-bf3d-4d61-805f-13a3ce48a540","type":"BasicTicker"}},"id":"d218baff-11ef-4a50-9edd-39f19c709062","type":"LinearAxis"},{"attributes":{"plot":{"id":"745a069b-c91c-4640-877e-770a957fc192","subtype":"Figure","type":"Plot"}},"id":"058c8db8-dc5b-44b9-8266-0c395480ace9","type":"WheelZoomTool"},{"attributes":{"callback":null},"id":"96a68e60-4fe2-4ee9-84a7-83b60447d6e0","type":"DataRange1d"},{"attributes":{},"id":"e714682c-186f-4a68-b0f2-ef7c0f568655","type":"LinearScale"},{"attributes":{},"id":"15027a71-6ec3-4912-bc11-8acf3ead6912","type":"BasicTickFormatter"},{"attributes":{"line_alpha":{"value":0.1},"line_color":{"value":"#1f77b4"},"x":{"field":"dataX"},"y":{"field":"dataY"}},"id":"c69eb376-afb1-42ac-9cab-6aa49d348350","type":"Line"},{"attributes":{"overlay":{"id":"d325b23d-a909-4ee2-90b6-08c16ae06343","type":"BoxAnnotation"},"plot":{"id":"745a069b-c91c-4640-877e-770a957fc192","subtype":"Figure","type":"Plot"}},"id":"187a7d0f-fe1c-4fd8-a7e7-ee67333e5d96","type":"BoxZoomTool"},{"attributes":{},"id":"435166fb-2591-4ecf-b0d1-9375755d73d5","type":"CategoricalTicker"},{"attributes":{"label":{"value":"NbOutils"},"renderers":[{"id":"5cf56d61-2c3c-4fba-8449-fc4e7e523818","type":"GlyphRenderer"},{"id":"e3c6da75-22b5-4c34-a6fd-0b18d2fef96a","type":"GlyphRenderer"}]},"id":"98739d8a-9fc9-4a81-8332-1b80f154427a","type":"LegendItem"},{"attributes":{"dimension":1,"plot":{"id":"745a069b-c91c-4640-877e-770a957fc192","subtype":"Figure","type":"Plot"},"ticker":{"id":"aaaeac49-bf3d-4d61-805f-13a3ce48a540","type":"BasicTicker"}},"id":"33ae351b-2e25-43fe-89c7-ca93e1800ecc","type":"Grid"},{"attributes":{"plot":{"id":"745a069b-c91c-4640-877e-770a957fc192","subtype":"Figure","type":"Plot"}},"id":"6570f99f-35b8-4912-a44c-d01250da0cc5","type":"ResetTool"},{"attributes":{"plot":null,"text":"Nb d'outils d\u00e9livr\u00e9s au guichet selon horaire et p\u00e9riode"},"id":"f98fd249-96e1-428c-aa67-1f8b419dc36d","type":"Title"},{"attributes":{"plot":{"id":"745a069b-c91c-4640-877e-770a957fc192","subtype":"Figure","type":"Plot"}},"id":"7984a4a8-4238-4d7e-893d-08cee2e13185","type":"HelpTool"},{"attributes":{},"id":"dd2c6697-ae27-4795-9a0d-2352fd4d38e0","type":"ToolEvents"},{"attributes":{"data_source":{"id":"92c5d875-fc0c-42c7-a04b-cd6e09113fa9","type":"ColumnDataSource"},"glyph":{"id":"74758814-6b25-402f-b7b0-b69748b9e963","type":"Line"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"c69eb376-afb1-42ac-9cab-6aa49d348350","type":"Line"},"selection_glyph":null},"id":"5cf56d61-2c3c-4fba-8449-fc4e7e523818","type":"GlyphRenderer"},{"attributes":{"callback":null,"factors":["13_06_10h00","13_06_10h15","13_06_10h30","13_06_10h45","13_06_11h00","13_06_11h15","13_06_13h00","13_06_13h15","13_06_13h30","13_06_13h45","13_06_14h00","13_06_14h15","13_06_14h30","13_06_14h45","13_06_15h00","13_06_15h15","13_06_15h30","13_06_15h45","13_06_16h15","13_06_16h30","13_06_16h45","13_06_23h15","14_06_05h45","14_06_06h15","14_06_07h15","14_06_08h00","14_06_08h15","14_06_08h30","14_06_08h45","14_06_09h00","14_06_09h15","14_06_09h30","14_06_09h45","14_06_10h00","14_06_10h15","14_06_10h30","14_06_10h45","14_06_11h00","14_06_11h30","14_06_12h00","14_06_12h15","14_06_13h00","14_06_13h15","14_06_13h30","14_06_13h45","14_06_14h00","14_06_14h15","14_06_14h30","14_06_14h45","14_06_15h00","14_06_15h15","14_06_15h30","14_06_15h45","14_06_16h00","14_06_16h15","14_06_16h45","14_06_20h00","15_06_04h30","15_06_06h00","15_06_06h30","15_06_08h00","15_06_08h15","15_06_08h30","15_06_08h45","15_06_09h00","15_06_09h15","15_06_09h30","15_06_09h45","15_06_10h00","15_06_10h15","15_06_10h30","15_06_10h45","15_06_11h00","15_06_11h15","15_06_11h30","15_06_13h00","15_06_13h15","15_06_13h30","15_06_13h45","15_06_14h00","15_06_14h15","15_06_14h30","15_06_14h45","15_06_15h00","15_06_15h15","15_06_15h30","15_06_15h45","15_06_16h00","15_06_16h15","15_06_17h30","15_06_18h30","15_06_21h45","15_06_22h00","15_06_22h15","16_06_06h00","16_06_06h15","16_06_07h15","16_06_07h45","16_06_08h15","16_06_08h30","16_06_08h45","16_06_09h00","16_06_09h15","16_06_09h30","16_06_09h45","16_06_10h00","16_06_10h30","16_06_11h15","16_06_11h30","16_06_11h45","16_06_13h15","16_06_13h30","16_06_13h45","16_06_14h00","16_06_14h15","16_06_14h30","16_06_14h45","16_06_15h00","16_06_15h15","16_06_15h30","16_06_15h45"]},"id":"2d84cfaf-1709-40fc-840e-f81b56e63536","type":"FactorRange"},{"attributes":{"axis_label":"Datetime","formatter":{"id":"c5192742-c4eb-4fad-ae32-4e01c13e7a45","type":"CategoricalTickFormatter"},"plot":{"id":"745a069b-c91c-4640-877e-770a957fc192","subtype":"Figure","type":"Plot"},"ticker":{"id":"435166fb-2591-4ecf-b0d1-9375755d73d5","type":"CategoricalTicker"}},"id":"17c633fc-2ce8-45b5-9f2b-bdfed217fc31","type":"CategoricalAxis"},{"attributes":{"plot":{"id":"745a069b-c91c-4640-877e-770a957fc192","subtype":"Figure","type":"Plot"}},"id":"ba687784-f5e6-461f-850b-57d90d66765f","type":"PanTool"},{"attributes":{"callback":null,"column_names":["dataX","dataY","dataLabel"],"data":{"dataLabel":["11","22","9","3","1","2","1","11","10","11","24","15","6","8","17","1","7","21","21","4","5","9","2","4","1","8","5","20","11","33","17","18","16","20","25","22","15","10","1","4","16","7","21","8","19","17","11","13","5","11","6","4","6","2","1","2","2","2","5","5","1","7","7","15","26","47","22","16","11","8","8","6","4","42","3","3","8","17","22","30","22","21","2","12","10","3","6","10","2","2","3","13","15","2","10","2","2","1","11","12","12","16","10","20","19","8","5","1","12","10","4","2","1","12","13","17","7","6","5","3","4"],"dataX":["13_06_10h00","13_06_10h15","13_06_10h30","13_06_10h45","13_06_11h00","13_06_11h15","13_06_13h00","13_06_13h15","13_06_13h30","13_06_13h45","13_06_14h00","13_06_14h15","13_06_14h30","13_06_14h45","13_06_15h00","13_06_15h15","13_06_15h30","13_06_15h45","13_06_16h15","13_06_16h30","13_06_16h45","13_06_23h15","14_06_05h45","14_06_06h15","14_06_07h15","14_06_08h00","14_06_08h15","14_06_08h30","14_06_08h45","14_06_09h00","14_06_09h15","14_06_09h30","14_06_09h45","14_06_10h00","14_06_10h15","14_06_10h30","14_06_10h45","14_06_11h00","14_06_11h30","14_06_12h00","14_06_12h15","14_06_13h00","14_06_13h15","14_06_13h30","14_06_13h45","14_06_14h00","14_06_14h15","14_06_14h30","14_06_14h45","14_06_15h00","14_06_15h15","14_06_15h30","14_06_15h45","14_06_16h00","14_06_16h15","14_06_16h45","14_06_20h00","15_06_04h30","15_06_06h00","15_06_06h30","15_06_08h00","15_06_08h15","15_06_08h30","15_06_08h45","15_06_09h00","15_06_09h15","15_06_09h30","15_06_09h45","15_06_10h00","15_06_10h15","15_06_10h30","15_06_10h45","15_06_11h00","15_06_11h15","15_06_11h30","15_06_13h00","15_06_13h15","15_06_13h30","15_06_13h45","15_06_14h00","15_06_14h15","15_06_14h30","15_06_14h45","15_06_15h00","15_06_15h15","15_06_15h30","15_06_15h45","15_06_16h00","15_06_16h15","15_06_17h30","15_06_18h30","15_06_21h45","15_06_22h00","15_06_22h15","16_06_06h00","16_06_06h15","16_06_07h15","16_06_07h45","16_06_08h15","16_06_08h30","16_06_08h45","16_06_09h00","16_06_09h15","16_06_09h30","16_06_09h45","16_06_10h00","16_06_10h30","16_06_11h15","16_06_11h30","16_06_11h45","16_06_13h15","16_06_13h30","16_06_13h45","16_06_14h00","16_06_14h15","16_06_14h30","16_06_14h45","16_06_15h00","16_06_15h15","16_06_15h30","16_06_15h45"],"dataY":[11,22,9,3,1,2,1,11,10,11,24,15,6,8,17,1,7,21,21,4,5,9,2,4,1,8,5,20,11,33,17,18,16,20,25,22,15,10,1,4,16,7,21,8,19,17,11,13,5,11,6,4,6,2,1,2,2,2,5,5,1,7,7,15,26,47,22,16,11,8,8,6,4,42,3,3,8,17,22,30,22,21,2,12,10,3,6,10,2,2,3,13,15,2,10,2,2,1,11,12,12,16,10,20,19,8,5,1,12,10,4,2,1,12,13,17,7,6,5,3,4]}},"id":"92c5d875-fc0c-42c7-a04b-cd6e09113fa9","type":"ColumnDataSource"},{"attributes":{},"id":"aaaeac49-bf3d-4d61-805f-13a3ce48a540","type":"BasicTicker"},{"attributes":{"plot":{"id":"745a069b-c91c-4640-877e-770a957fc192","subtype":"Figure","type":"Plot"},"ticker":{"id":"435166fb-2591-4ecf-b0d1-9375755d73d5","type":"CategoricalTicker"}},"id":"3df3564c-661c-458f-a452-e5b51ba0b576","type":"Grid"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#1f77b4"},"line_alpha":{"value":0.1},"line_color":{"value":"#1f77b4"},"size":{"units":"screen","value":8},"x":{"field":"dataX"},"y":{"field":"dataY"}},"id":"8a6f1d6f-8cce-4057-9887-93acbbc2cec6","type":"Circle"},{"attributes":{},"id":"c5192742-c4eb-4fad-ae32-4e01c13e7a45","type":"CategoricalTickFormatter"},{"attributes":{"line_color":{"value":"blue"},"x":{"field":"dataX"},"y":{"field":"dataY"}},"id":"74758814-6b25-402f-b7b0-b69748b9e963","type":"Line"},{"attributes":{},"id":"331691ec-c928-4ce7-9154-32c851fe6535","type":"CategoricalScale"},{"attributes":{"bottom_units":"screen","fill_alpha":{"value":0.5},"fill_color":{"value":"lightgrey"},"left_units":"screen","level":"overlay","line_alpha":{"value":1.0},"line_color":{"value":"black"},"line_dash":[4,4],"line_width":{"value":2},"plot":null,"render_mode":"css","right_units":"screen","top_units":"screen"},"id":"d325b23d-a909-4ee2-90b6-08c16ae06343","type":"BoxAnnotation"},{"attributes":{"plot":{"id":"745a069b-c91c-4640-877e-770a957fc192","subtype":"Figure","type":"Plot"}},"id":"cc9c4b7e-9865-40a6-8840-49a7d4750f38","type":"SaveTool"},{"attributes":{"items":[{"id":"98739d8a-9fc9-4a81-8332-1b80f154427a","type":"LegendItem"}],"plot":{"id":"745a069b-c91c-4640-877e-770a957fc192","subtype":"Figure","type":"Plot"}},"id":"80c2a6c7-103a-440f-855c-4acfe3a52c35","type":"Legend"},{"attributes":{"below":[{"id":"17c633fc-2ce8-45b5-9f2b-bdfed217fc31","type":"CategoricalAxis"}],"left":[{"id":"d218baff-11ef-4a50-9edd-39f19c709062","type":"LinearAxis"}],"plot_width":1000,"renderers":[{"id":"17c633fc-2ce8-45b5-9f2b-bdfed217fc31","type":"CategoricalAxis"},{"id":"3df3564c-661c-458f-a452-e5b51ba0b576","type":"Grid"},{"id":"d218baff-11ef-4a50-9edd-39f19c709062","type":"LinearAxis"},{"id":"33ae351b-2e25-43fe-89c7-ca93e1800ecc","type":"Grid"},{"id":"d325b23d-a909-4ee2-90b6-08c16ae06343","type":"BoxAnnotation"},{"id":"80c2a6c7-103a-440f-855c-4acfe3a52c35","type":"Legend"},{"id":"5cf56d61-2c3c-4fba-8449-fc4e7e523818","type":"GlyphRenderer"},{"id":"e3c6da75-22b5-4c34-a6fd-0b18d2fef96a","type":"GlyphRenderer"},{"id":"6fe8501e-65ae-4a55-983a-fa061d89694e","type":"LabelSet"}],"title":{"id":"f98fd249-96e1-428c-aa67-1f8b419dc36d","type":"Title"},"tool_events":{"id":"dd2c6697-ae27-4795-9a0d-2352fd4d38e0","type":"ToolEvents"},"toolbar":{"id":"96566c71-2c22-4610-8249-035ed12f2eda","type":"Toolbar"},"toolbar_location":"above","x_range":{"id":"2d84cfaf-1709-40fc-840e-f81b56e63536","type":"FactorRange"},"x_scale":{"id":"331691ec-c928-4ce7-9154-32c851fe6535","type":"CategoricalScale"},"y_range":{"id":"96a68e60-4fe2-4ee9-84a7-83b60447d6e0","type":"DataRange1d"},"y_scale":{"id":"e714682c-186f-4a68-b0f2-ef7c0f568655","type":"LinearScale"}},"id":"745a069b-c91c-4640-877e-770a957fc192","subtype":"Figure","type":"Plot"},{"attributes":{"active_drag":"auto","active_inspect":"auto","active_scroll":"auto","active_tap":"auto","tools":[{"id":"ba687784-f5e6-461f-850b-57d90d66765f","type":"PanTool"},{"id":"058c8db8-dc5b-44b9-8266-0c395480ace9","type":"WheelZoomTool"},{"id":"187a7d0f-fe1c-4fd8-a7e7-ee67333e5d96","type":"BoxZoomTool"},{"id":"cc9c4b7e-9865-40a6-8840-49a7d4750f38","type":"SaveTool"},{"id":"6570f99f-35b8-4912-a44c-d01250da0cc5","type":"ResetTool"},{"id":"7984a4a8-4238-4d7e-893d-08cee2e13185","type":"HelpTool"}]},"id":"96566c71-2c22-4610-8249-035ed12f2eda","type":"Toolbar"},{"attributes":{"fill_color":{"value":"white"},"line_color":{"value":"#1f77b4"},"size":{"units":"screen","value":8},"x":{"field":"dataX"},"y":{"field":"dataY"}},"id":"f2aed122-bc6d-4f1c-ab85-a9986283e737","type":"Circle"},{"attributes":{"data_source":{"id":"92c5d875-fc0c-42c7-a04b-cd6e09113fa9","type":"ColumnDataSource"},"glyph":{"id":"f2aed122-bc6d-4f1c-ab85-a9986283e737","type":"Circle"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"8a6f1d6f-8cce-4057-9887-93acbbc2cec6","type":"Circle"},"selection_glyph":null},"id":"e3c6da75-22b5-4c34-a6fd-0b18d2fef96a","type":"GlyphRenderer"},{"attributes":{"level":"glyph","plot":{"id":"745a069b-c91c-4640-877e-770a957fc192","subtype":"Figure","type":"Plot"},"source":{"id":"92c5d875-fc0c-42c7-a04b-cd6e09113fa9","type":"ColumnDataSource"},"text":{"field":"dataLabel"},"x":{"field":"dataX"},"x_offset":{"value":5},"y":{"field":"dataY"},"y_offset":{"value":5}},"id":"6fe8501e-65ae-4a55-983a-fa061d89694e","type":"LabelSet"}],"root_ids":["745a069b-c91c-4640-877e-770a957fc192"]},"title":"Bokeh Application","version":"0.12.6"}};
+      var render_items = [{"docid":"acef40a9-2130-494b-bcce-533bfefc6257","elementid":"b3f00321-2753-4dbe-92c0-6cfcaf39398b","modelid":"745a069b-c91c-4640-877e-770a957fc192"}];
+      
+      Bokeh.embed.embed_items(docs_json, render_items);
+    });
+  };
+  if (document.readyState != "loading") fn();
+  else document.addEventListener("DOMContentLoaded", fn);
+})();
+
+</script>
+<div class="bk-root">
+    <div class="bk-plotdiv" id="b3f00321-2753-4dbe-92c0-6cfcaf39398b"></div>
+</div></div>
+
+	</div>
+	
+
+	
+	<div id="fourth">
+		<p>© 2016-2017 <b>MIMO Projet Python</b>. All Rights Reserved</p>
+	</div>
+	
+</body>
+</html>
